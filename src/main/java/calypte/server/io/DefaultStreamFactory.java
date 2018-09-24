@@ -27,7 +27,7 @@ import java.util.Properties;
  * Implementação padrão da fábrica que produz objetos que auxiliam na 
  * manipulação do fluxo de dados de uma conexão.
  * 
- * @author Brandao
+ * @author Ribeiro
  */
 public class DefaultStreamFactory 
     implements StreamFactory{

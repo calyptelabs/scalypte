@@ -34,7 +34,7 @@ import calypte.server.error.ServerErrors;
  * <pre>
  * rollback
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class RollbackTransactionCommand 

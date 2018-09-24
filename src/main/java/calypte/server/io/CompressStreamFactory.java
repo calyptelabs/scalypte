@@ -27,7 +27,7 @@ import java.util.zip.Inflater;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public class CompressStreamFactory 
     implements StreamFactory{

@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 class TerminalFactory {
     

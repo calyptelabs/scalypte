@@ -34,7 +34,7 @@ import calypte.server.error.ServerErrors;
  * <pre>
  * begin
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class BeginTransactionCommand 

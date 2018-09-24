@@ -24,7 +24,7 @@ import calypte.server.TerminalConstants;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public class TextOutputStream extends OutputStream{
 

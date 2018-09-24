@@ -37,7 +37,7 @@ import calypte.server.TerminalWriter;
  * <pre>
  * show_vars
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class ShowVarsCommand 

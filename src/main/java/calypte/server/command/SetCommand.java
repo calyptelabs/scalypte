@@ -39,7 +39,7 @@ import calypte.server.util.ArraysUtil;
  * set &lt;key&gt; &lt;timeToLive&gt; &lt;timeToIdle&gt; &lt;size&gt; &lt;reserved&gt;\r\n
  * &lt;data&gt;\r\n
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class SetCommand extends AbstractCommand{

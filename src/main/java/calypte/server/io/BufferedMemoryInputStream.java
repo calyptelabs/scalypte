@@ -27,7 +27,7 @@ import calypte.memory.RegionMemory;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public class BufferedMemoryInputStream extends InputStream{
     

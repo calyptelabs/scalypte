@@ -34,7 +34,7 @@ import calypte.server.error.ServerErrors;
  * <pre>
  * commit
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class CommitTransactionCommand 

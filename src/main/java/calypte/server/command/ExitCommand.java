@@ -30,7 +30,7 @@ import calypte.server.TerminalWriter;
  * <pre>
  * exit
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class ExitCommand 

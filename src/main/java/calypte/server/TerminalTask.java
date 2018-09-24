@@ -28,7 +28,7 @@ import calypte.server.terminalinfolisteners.AutoCommitListener;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 class TerminalTask implements Runnable{
 

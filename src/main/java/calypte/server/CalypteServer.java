@@ -42,7 +42,7 @@ import calypte.tx.TXCacheImp;
 /**
  * Representa o servidor do cache.
  * 
- * @author Brandao
+ * @author Ribeiro
  */
 public class CalypteServer {
     

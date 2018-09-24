@@ -29,7 +29,7 @@ import calypte.server.io.TextInputStreamReader;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public class TextTerminalReader implements TerminalReader{
 

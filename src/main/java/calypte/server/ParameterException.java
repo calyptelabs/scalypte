@@ -21,7 +21,7 @@ package calypte.server;
  * Lançada caso ocorra algum falha ao tentar processar os parâmetros 
  * de uma solicitação.
  * 
- * @author Brandao
+ * @author Ribeiro
  */
 public class ParameterException extends Exception{
     

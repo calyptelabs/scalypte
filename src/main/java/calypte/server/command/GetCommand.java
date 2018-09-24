@@ -37,7 +37,7 @@ import calypte.server.util.ArraysUtil;
  * <pre>
  * get &lt;key&gt; &lt;update&gt; &lt;reserved&gt;\r\n
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class GetCommand extends AbstractCommand{

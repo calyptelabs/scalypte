@@ -23,7 +23,7 @@ import java.io.IOException;
  * Lançada caso ocorra algum falha ao tentar enviar os dados 
  * em uma solicitação.
  * 
- * @author Brandao
+ * @author Ribeiro
  */
 public class WriteDataException extends IOException{
     

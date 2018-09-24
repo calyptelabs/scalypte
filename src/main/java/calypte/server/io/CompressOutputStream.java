@@ -24,7 +24,7 @@ import java.util.zip.DeflaterOutputStream;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public class CompressOutputStream 
     extends DeflaterOutputStream {

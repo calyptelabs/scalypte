@@ -38,7 +38,7 @@ import calypte.server.util.ClassUtil;
  * <pre>
  * begin
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class SetVarCommand 

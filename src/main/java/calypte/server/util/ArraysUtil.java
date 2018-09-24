@@ -24,7 +24,7 @@ import sun.misc.Unsafe;
 
 /**
  * Provê métodos auxiliares de manipulação de arranjo de bytes.
- * @author Brandao
+ * @author Ribeiro
  *
  */
 @SuppressWarnings("restriction")

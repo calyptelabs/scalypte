@@ -22,7 +22,7 @@ import calypte.server.error.ServerErrorException;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public interface Command {
     

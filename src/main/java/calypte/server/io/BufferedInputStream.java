@@ -27,7 +27,7 @@ import calypte.server.util.ArraysUtil;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public class BufferedInputStream extends InputStream{
     

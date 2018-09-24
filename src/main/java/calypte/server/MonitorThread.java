@@ -22,7 +22,7 @@ import calypte.Configuration;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 class MonitorThread extends Thread{
     

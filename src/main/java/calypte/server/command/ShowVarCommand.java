@@ -32,7 +32,7 @@ import calypte.server.util.ArraysUtil;
  * <pre>
  * show_var
  * </pre> 
- * @author Brandao
+ * @author Ribeiro
  *
  */
 public class ShowVarCommand 

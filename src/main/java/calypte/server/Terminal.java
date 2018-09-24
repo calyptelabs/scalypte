@@ -45,7 +45,7 @@ import calypte.server.util.ArraysUtil;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 @SuppressWarnings("unused")
 public class Terminal {

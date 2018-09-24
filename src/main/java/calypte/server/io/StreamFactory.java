@@ -27,7 +27,7 @@ import java.util.Properties;
  * Fábrica que produz objetos que auxiliam na manipulação do 
  * fluxo de dados de uma conexão.
  * 
- * @author Brandao
+ * @author Ribeiro
  */
 public interface StreamFactory {
     /**

@@ -23,7 +23,7 @@ import calypte.server.TerminalConstants;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public class TextInputStreamReader 
 	extends AbstractTextInputStreamReader{

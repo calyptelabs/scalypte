@@ -24,7 +24,7 @@ import java.util.zip.InflaterInputStream;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public class CompressInputStream 
     extends InflaterInputStream {

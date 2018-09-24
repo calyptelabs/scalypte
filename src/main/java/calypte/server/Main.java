@@ -26,7 +26,7 @@ import calypte.Configuration;
 
 /**
  * 
- * @author Brandao
+ * @author Ribeiro
  */
 public class Main {
     

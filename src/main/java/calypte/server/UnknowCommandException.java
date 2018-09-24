@@ -19,7 +19,7 @@ package calypte.server;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 class UnknowCommandException extends Exception{
     

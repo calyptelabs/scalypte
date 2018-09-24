@@ -23,7 +23,7 @@ import java.io.IOException;
  * Lançada caso ocorra algum falha ao tentar ler os dados 
  * de uma solicitação.
  * 
- * @author Brandao
+ * @author Ribeiro
  */
 public class ReadDataException extends IOException{
     

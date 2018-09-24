@@ -26,7 +26,7 @@ import calypte.server.util.ArraysUtil;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public abstract class AbstractTextInputStreamReader extends InputStream{
 

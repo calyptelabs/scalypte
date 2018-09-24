@@ -21,7 +21,7 @@ import java.io.OutputStream;
 
 /**
  *
- * @author Brandao
+ * @author Ribeiro
  */
 public interface TerminalWriter {
     
