@@ -114,6 +114,32 @@ public class ArraysUtil {
 			return false;
 		}
 	}
+
+	/**
+	 * Verifica se dois arranjos de bytes são iguais.
+	 * @param a arranjo a ser comparado.
+	 * @param b arranjo a ser comparado.
+	 * @return <code>true</code> se forem iguais. Caso contrário, <code>false</code> 
+	 */
+	public static boolean equals(byte[] a, byte[] b, int o, int l){
+		try{
+			int alen = a.length;
+			
+			if(alen != l){
+				return false;
+			}
+			
+			int r = 0;
+			for(int i=0;i<alen;i++){
+				r = a[i] - b[i + o];
+			}
+			
+			return r == 0;
+		}
+		catch(Throwable e){
+			return false;
+		}
+	}
 	
 	/**
 	 * Fragmento um arranjo usando um byte como delimitador.
@@ -187,6 +213,32 @@ public class ArraysUtil {
 		return result;
 	}
 
+	/**
+	 * Converte um texto representado por um arranjo de bytes em um inteiro.
+	 * @param value arranjo.
+	 * @return inteiro.
+	 */
+	public static int toInt(byte[] value, int o, int l){
+		int limit      = value.length - 1;
+		byte signal    = value[0] == NEGATIVE? FALSE : TRUE;
+		byte hasSignal = value[0] == NEGATIVE || value[0] == POSITIVE? TRUE : FALSE;
+		
+		int start  = hasSignal == TRUE? 1 : 0;
+		int result = 0;
+		int mult   = 1;
+		
+		for(int i=limit;i>=start;i--){
+			result += (value[i] - ZERO)*mult;
+			mult   *= 10;
+		}
+		
+		if(signal == FALSE){
+			result = (result ^ NEGATIVE_INT) + 1;
+		}
+		
+		return result;
+	}
+	
 	/**
 	 * Converte um valor numérico em um texto no formato de arranjo de bytes.
 	 * <p>É equivalente ao trecho abaixo:</p>
@@ -302,7 +354,32 @@ public class ArraysUtil {
 		int mult    = 1;
 		
 		for(int i=limit;i>=start;i--){
-			//int tmp = value[i] - ZERO;
+			result += (value[i] - ZERO)*mult;
+			mult   *= 10;
+		}
+		
+		if(signal == FALSE){
+			result = (result ^ NEGATIVE_LONG) + 1;
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Converte um texto representado por um arranjo de bytes em um inteiro.
+	 * @param value arranjo.
+	 * @return inteiro.
+	 */
+	public static long toLong(byte[] value, int o, int len){
+		int limit      = o + len - 1;
+		byte signal    = value[o] == NEGATIVE? FALSE : TRUE;
+		byte hasSignal = value[o] == NEGATIVE || value[o] == POSITIVE? TRUE : FALSE;
+		
+		int start   = hasSignal == TRUE? 1 : 0;
+		long result = 0;
+		int mult    = 1;
+		
+		for(int i=limit;i>=start;i--){
 			result += (value[i] - ZERO)*mult;
 			mult   *= 10;
 		}
@@ -323,6 +400,23 @@ public class ArraysUtil {
 		char[] chars = new char[value.length];
 		int len      = value.length;
 		int i        = 0;
+		
+		while(i<len){
+			chars[i] = (char)value[i++];
+		}
+		
+		return new String(chars);
+	}
+
+	/**
+	 * Converte um um arranjo de bytes em texto.
+	 * @param value arranjo
+	 * @return texto.
+	 */
+	public static String toString(byte[] value, int o, int l){
+		char[] chars = new char[value.length];
+		int len      = o + l;
+		int i        = o;
 		
 		while(i<len){
 			chars[i] = (char)value[i++];

@@ -45,6 +45,10 @@ public class ArraySplit {
 		start = 0;
 	}
 	
+	public void reset(){
+		start = 0;
+	}
+	
 	public int readNext(byte[] buf, int o, int l){
 		try{
 			int end = start;
@@ -61,6 +65,80 @@ public class ArraySplit {
 		}
 		catch(Throwable e){
 			return -1;
+		}
+	}
+
+	public String readNextString(){
+		try{
+			int end = start;
+			
+			while(end<len && data[end++] != separator);
+			
+			int cp = end < len? end - start - 1 : end - start;
+			
+			String r = ArraysUtil.toString(data, start, cp);
+			
+			start  = end;
+
+			return r;
+		}
+		catch(Throwable e){
+			return null;
+		}
+	}
+
+	public long readNextLong(){
+		try{
+			int end = start;
+			
+			while(end<len && data[end++] != separator);
+			
+			int cp = end < len? end - start - 1 : end - start;
+			
+			long r = ArraysUtil.toLong(data, start, cp);
+			
+			start  = end;
+
+			return r;
+		}
+		catch(Throwable e){
+			return 0;
+		}
+	}
+
+	public int readNextInt(){
+		try{
+			int end = start;
+			
+			while(end<len && data[end++] != separator);
+			
+			int cp = end < len? end - start - 1 : end - start;
+			
+			int r = ArraysUtil.toInt(data, start, cp);
+			
+			start  = end;
+
+			return r;
+		}
+		catch(Throwable e){
+			return 0;
+		}
+	}
+	
+	public boolean readNextBoolean(){
+		try{
+			int end = start;
+			
+			while(end<len && data[end++] != separator);
+			
+			boolean r = data[start] != '0';
+			
+			start  = end;
+
+			return r;
+		}
+		catch(Throwable e){
+			return false;
 		}
 	}
 	

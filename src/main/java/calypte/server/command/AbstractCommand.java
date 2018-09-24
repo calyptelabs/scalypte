@@ -19,8 +19,8 @@ package calypte.server.command;
 
 import calypte.Cache;
 import calypte.CacheException;
-
 import calypte.server.Command;
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalReader;
 import calypte.server.TerminalWriter;
@@ -30,12 +30,18 @@ import calypte.server.error.ServerErrors;
 public abstract class AbstractCommand 
 	implements Command{
 
+	protected byte[] buffer;
+
+	public AbstractCommand(){
+		this.buffer = new byte[256];
+	}
+	
 	public void execute(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws ServerErrorException {
 
 		try{
-			this.executeCommand(terminal, cache, reader, writer, parameters);
+			this.executeCommand(terminal, cache, reader, writer, params);
 		}
         catch(ServerErrorException ex){
             throw ex;
@@ -50,6 +56,6 @@ public abstract class AbstractCommand
 	}
 	
 	protected abstract void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable;
 }

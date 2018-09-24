@@ -20,7 +20,7 @@ package calypte.server.command;
 import calypte.Cache;
 import calypte.tx.CacheTransaction;
 import calypte.tx.TXCache;
-
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalConstants;
 import calypte.server.TerminalReader;
@@ -41,7 +41,7 @@ public class CommitTransactionCommand
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 
 		if(!(cache instanceof TXCache)){

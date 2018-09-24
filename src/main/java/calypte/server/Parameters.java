@@ -15,34 +15,16 @@
  * limitations under the License.
  */
 
-package calypte.server.command;
+package calypte.server;
 
-import calypte.Cache;
-import calypte.server.Parameters;
-import calypte.server.Terminal;
-import calypte.server.TerminalConstants;
-import calypte.server.TerminalReader;
-import calypte.server.TerminalWriter;
+import calypte.server.util.ArraySplit;
 
 /**
- * Representa o comando <code>exit</code>.
- * Sua sintaxe é:
- * <pre>
- * exit
- * </pre> 
+ * 
  * @author Ribeiro
  *
  */
-public class ExitCommand 
-	extends AbstractCommand{
-
-	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, Parameters params)
-			throws Throwable {
-		 
-        writer.sendMessage(TerminalConstants.DISCONNECT_DTA);
-        writer.flush();
-        terminal.destroy();
-	}
+public class Parameters 
+	extends ArraySplit{
 
 }

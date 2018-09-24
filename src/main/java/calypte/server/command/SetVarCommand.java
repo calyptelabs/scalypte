@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import calypte.Cache;
-
+import calypte.server.Parameters;
 import calypte.server.ServerConstants;
 import calypte.server.Terminal;
 import calypte.server.TerminalConstants;
@@ -29,7 +29,6 @@ import calypte.server.TerminalReader;
 import calypte.server.TerminalWriter;
 import calypte.server.error.ServerErrorException;
 import calypte.server.error.ServerErrors;
-import calypte.server.util.ArraysUtil;
 import calypte.server.util.ClassUtil;
 
 /**
@@ -50,20 +49,20 @@ public class SetVarCommand
 	}};
 	
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 
 		String key;
 		Object value;
 		
 		try{
-			key = ArraysUtil.toString(parameters[1]);
+			key = params.readNextString();
 			
 			if(key == null){
 		        throw new NullPointerException();
 			}
 		
-			value = ArraysUtil.toString(parameters[2]);
+			value = params.readNextString();
 			
 			if(value == null){
 		        throw new NullPointerException();

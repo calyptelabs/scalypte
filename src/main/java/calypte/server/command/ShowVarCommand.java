@@ -18,13 +18,12 @@
 package calypte.server.command;
 
 import calypte.Cache;
-
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalReader;
 import calypte.server.TerminalWriter;
 import calypte.server.error.ServerErrorException;
 import calypte.server.error.ServerErrors;
-import calypte.server.util.ArraysUtil;
 
 /**
  * Representa o comando <code>show_var</code>.
@@ -39,13 +38,13 @@ public class ShowVarCommand
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 
 		String key;
 		
 		try{
-			key = ArraysUtil.toString(parameters[1]);
+			key = params.readNextString();
 			
 			if(key == null){
 		        throw new NullPointerException();

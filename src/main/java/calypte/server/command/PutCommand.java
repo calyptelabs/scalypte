@@ -20,14 +20,13 @@ package calypte.server.command;
 import java.io.InputStream;
 
 import calypte.Cache;
-
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalConstants;
 import calypte.server.TerminalReader;
 import calypte.server.TerminalWriter;
 import calypte.server.error.ServerErrorException;
 import calypte.server.error.ServerErrors;
-import calypte.server.util.ArraysUtil;
 
 /**
  * Representa o comando <code>put</code>.
@@ -46,7 +45,7 @@ public class PutCommand extends AbstractCommand{
 	private static final byte[] STORED_DTA = TerminalConstants.FULL_STORED_DTA;
 	
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 		
         int timeToLive;
@@ -55,10 +54,10 @@ public class PutCommand extends AbstractCommand{
 		String key;
 
 		try{
-			key        = ArraysUtil.toString(parameters[1]);
-        	timeToLive = ArraysUtil.toInt(parameters[2]);
-        	timeToIdle = ArraysUtil.toInt(parameters[3]);
-            size       = ArraysUtil.toInt(parameters[4]);
+			key        = params.readNextString();
+        	timeToLive = params.readNextInt();
+        	timeToIdle = params.readNextInt();
+            size       = params.readNextInt();
 			
 			if(key == null || timeToLive < 0 || timeToIdle < 0 || size <= 0){
 		        throw new IllegalStateException();

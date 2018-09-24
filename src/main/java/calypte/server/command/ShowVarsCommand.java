@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import calypte.Cache;
-
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalConstants;
 import calypte.server.TerminalReader;
@@ -50,7 +50,7 @@ public class ShowVarsCommand
     }
     
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 		
 		Map<String,Object> map = new HashMap<String, Object>();

@@ -18,14 +18,13 @@
 package calypte.server.command;
 
 import calypte.Cache;
-
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalConstants;
 import calypte.server.TerminalReader;
 import calypte.server.TerminalWriter;
 import calypte.server.error.ServerErrorException;
 import calypte.server.error.ServerErrors;
-import calypte.server.util.ArraysUtil;
 
 /**
  * Representa o comando <code>remove</code>.
@@ -39,12 +38,12 @@ import calypte.server.util.ArraysUtil;
 public class RemoveCommand extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 
 		boolean result;
 		
-		String name = ArraysUtil.toString(parameters[1]);
+		String name = params.readNextString();
 		
         if(name == null){
         	throw new ServerErrorException(ServerErrors.ERROR_1003, "name");        	

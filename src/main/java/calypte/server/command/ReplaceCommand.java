@@ -20,14 +20,13 @@ package calypte.server.command;
 import java.io.InputStream;
 
 import calypte.Cache;
-
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalConstants;
 import calypte.server.TerminalReader;
 import calypte.server.TerminalWriter;
 import calypte.server.error.ServerErrorException;
 import calypte.server.error.ServerErrors;
-import calypte.server.util.ArraysUtil;
 
 /**
  * Representa o comando <code>replace</code>.
@@ -42,7 +41,7 @@ import calypte.server.util.ArraysUtil;
 public class ReplaceCommand extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 		
         int timeToLive;
@@ -51,23 +50,23 @@ public class ReplaceCommand extends AbstractCommand{
 		String key;
 
 		try{
-			key = ArraysUtil.toString(parameters[1]);
+			key = params.readNextString();
 			
 			if(key == null){
 		        throw new NullPointerException();
 			}
 		
-        	timeToLive = ArraysUtil.toInt(parameters[2]);
+        	timeToLive = params.readNextInt();
         	if(timeToLive < 0){
         		throw new IllegalStateException();
         	}
 
-        	timeToIdle = ArraysUtil.toInt(parameters[3]);
+        	timeToIdle = params.readNextInt();
         	if(timeToIdle < 0){
         		throw new IllegalStateException();
         	}
 
-            size = ArraysUtil.toInt(parameters[4]);
+            size = params.readNextInt();
         	if(size <= 0){
         		throw new IllegalStateException();
         	}

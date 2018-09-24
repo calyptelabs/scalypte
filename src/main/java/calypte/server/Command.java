@@ -27,7 +27,7 @@ import calypte.server.error.ServerErrorException;
 public interface Command {
     
     void execute(Terminal terminal, Cache cache, TerminalReader reader, 
-    		TerminalWriter writer, byte[][] parameters) 
+    		TerminalWriter writer, Parameters params) 
             throws ServerErrorException;
     
 }

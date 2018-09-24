@@ -18,15 +18,15 @@
 package calypte.server.command;
 
 import calypte.Cache;
-import calypte.tx.CacheTransaction;
-import calypte.tx.TXCache;
-
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalConstants;
 import calypte.server.TerminalReader;
 import calypte.server.TerminalWriter;
 import calypte.server.error.ServerErrorException;
 import calypte.server.error.ServerErrors;
+import calypte.tx.CacheTransaction;
+import calypte.tx.TXCache;
 
 /**
  * Representa o comando <code>rollback</code>.
@@ -41,7 +41,7 @@ public class RollbackTransactionCommand
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 
 		if(!(cache instanceof TXCache)){

@@ -21,8 +21,7 @@ import java.io.OutputStream;
 
 import calypte.Cache;
 import calypte.CacheInputStream;
-import calypte.tx.TXCache;
-
+import calypte.server.Parameters;
 import calypte.server.Terminal;
 import calypte.server.TerminalConstants;
 import calypte.server.TerminalReader;
@@ -30,6 +29,7 @@ import calypte.server.TerminalWriter;
 import calypte.server.error.ServerErrorException;
 import calypte.server.error.ServerErrors;
 import calypte.server.util.ArraysUtil;
+import calypte.tx.TXCache;
 
 /**
  * Representa o comando <code>get</code>.
@@ -61,21 +61,20 @@ public class GetCommand extends AbstractCommand{
 	private static final byte[] BOUNDARY_DTA          = TerminalConstants.FULL_BOUNDARY_DTA;
 	
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
-			TerminalWriter writer, byte[][] parameters)
+			TerminalWriter writer, Parameters params)
 			throws Throwable {
 
 		String key;
 		boolean forUpdate;
 		
 		try{
-			key = ArraysUtil.toString(parameters[1]);
+			key = params.readNextString();
 			
 			if(key == null){
 		        throw new NullPointerException();
 			}
 		
-            forUpdate = parameters[2][0] != '0';
-			//forUpdate = !ArraysUtil.equals(parameters[2], FALSE);
+            forUpdate = params.readNextBoolean();
 	    }
 	    catch(Throwable e){
 	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);

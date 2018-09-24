@@ -25,7 +25,6 @@ import calypte.Cache;
 import calypte.tx.CacheTransaction;
 import calypte.tx.CacheTransactionManager;
 import calypte.tx.TXCache;
-
 import calypte.server.command.BeginTransactionCommand;
 import calypte.server.command.CommitTransactionCommand;
 import calypte.server.command.ExitCommand;
@@ -161,163 +160,191 @@ public class Terminal {
     }
     
     public void execute() throws Throwable{
-    	byte[] message  = new byte[cache.getConfig().getMaxSizeKey() + 30];
-        byte[][] params = new byte[0][];
-        int readMessage = -1;
+    	byte[] message    = new byte[cache.getConfig().getMaxSizeKey() + 30];
+        Parameters params = new Parameters();
+        int readMessage   = -1;
+        int lenRead       = 0;
+        
+        params.setData(message);
         
         while(this.run){
             try{
                 readMessage = reader.readMessage(message, 0, message.length);
-                params = ArraysUtil.split(message, 0, readMessage, SEPARATOR_CHAR);
-                
-                switch (params[0][0]) {
+                params.reset();
+                lenRead = params.readNext(message, 0, message.length);
+                switch (message[0]) {
 				case 'g':
 					
-	               	if(ArraysUtil.equals(TerminalConstants.GET_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.GET_CMD_DTA, message, 0, lenRead)){
 	        			GET.execute(this, cache, reader, writer, params);
 	            	}
 	                else{
-	                    this.writer.sendMessage(
-	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+                    					ArraysUtil.toString(message, 0, lenRead)
+            					)
 	            		);
-	                    this.writer.flush();
+	                    writer.flush();
 	                }
 	               	
 	               	break;
 				case 'p':
-	               	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, message, 0, lenRead)){
 	            		PUT.execute(this, cache, reader, writer, params);
 	               	}
 	                else{
-	                    this.writer.sendMessage(
-	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+                    					ArraysUtil.toString(message, 0, lenRead)
+            					)
 	            		);
-	                    this.writer.flush();
+	                    writer.flush();
 	                }
 	               	
 					break;
 				case 'r':
 					
-	               	if(ArraysUtil.equals(TerminalConstants.REPLACE_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.REPLACE_CMD_DTA, message, 0, lenRead)){
 	        			REPLACE.execute(this, cache, reader, writer, params);
 	               	}
 	               	else
-	               	if(ArraysUtil.equals(TerminalConstants.REMOVE_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.REMOVE_CMD_DTA, message, 0, lenRead)){
 	        			REMOVE.execute(this, cache, reader, writer, params);
 	               	}
 	               	else
-	               	if(ArraysUtil.equals(TerminalConstants.ROLLBACK_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.ROLLBACK_CMD_DTA, message, 0, lenRead)){
 	        			ROLLBACK_TX.execute(this, cache, reader, writer, params);
 	               	}
 	                else{
-	                    this.writer.sendMessage(
-	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+                    					ArraysUtil.toString(message, 0, lenRead)
+            					)
 	            		);
-	                    this.writer.flush();
+	                    writer.flush();
 	                }
 	               	
 	               	break;
 				case 's':
 					
-	               	if(ArraysUtil.equals(TerminalConstants.SET_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.SET_CMD_DTA, message, 0, lenRead)){
 	        			SET.execute(this, cache, reader, writer, params);
 	               	}
 	               	else
-	               	if(ArraysUtil.equals(TerminalConstants.SHOW_VAR_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.SHOW_VAR_CMD_DTA, message, 0, lenRead)){
 	        			SHOW_VAR.execute(this, cache, reader, writer, params);
 	               	}
 	               	else
-	               	if(ArraysUtil.equals(TerminalConstants.SET_VAR_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.SET_VAR_CMD_DTA, message, 0, lenRead)){
 	        			SET_VAR.execute(this, cache, reader, writer, params);
 	               	}
 	               	else
-	               	if(ArraysUtil.equals(TerminalConstants.SHOW_VARS_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.SHOW_VARS_CMD_DTA, message, 0, lenRead)){
 	        			SHOW_VARS.execute(this, cache, reader, writer, params);
 	               	}
 	                else{
-	                    this.writer.sendMessage(
-	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+                    					ArraysUtil.toString(message, 0, lenRead)
+            					)
 	            		);
-	                    this.writer.flush();
+	                    writer.flush();
 	                }
 	               	
 	               	break;
 				case 'b':
 					
-	               	if(ArraysUtil.equals(TerminalConstants.BEGIN_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.BEGIN_CMD_DTA, message, 0, lenRead)){
 	        			BEGIN_TX.execute(this, cache, reader, writer, params);
 	               	}
 	                else{
-	                    this.writer.sendMessage(
-	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+                    					ArraysUtil.toString(message, 0, lenRead)
+            					)
 	            		);
-	                    this.writer.flush();
+	                    writer.flush();
 	                }
 	               	
 	               	break;
 				case 'c':
-	               	if(ArraysUtil.equals(TerminalConstants.COMMIT_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.COMMIT_CMD_DTA, message, 0, lenRead)){
 	        			COMMIT_TX.execute(this, cache, reader, writer, params);
 	               	}
 	                else{
-	                    this.writer.sendMessage(
-	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+                    					ArraysUtil.toString(message, 0, lenRead)
+            					)
 	            		);
-	                    this.writer.flush();
+	                    writer.flush();
 	                }
 	               	
 	               	break;
 				case 'e':
-	               	if(ArraysUtil.equals(TerminalConstants.EXIT_CMD_DTA, params[0])){
+	               	if(ArraysUtil.equals(TerminalConstants.EXIT_CMD_DTA, message, 0, lenRead)){
 	        			EXIT.execute(this, cache, reader, writer, params);
 	               	}
 	                else{
-	                    this.writer.sendMessage(
-	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+                    					ArraysUtil.toString(message, 0, lenRead)
+            					)
 	            		);
-	                    this.writer.flush();
+	                    writer.flush();
 	                }
 	               	
 	               	break;
 				default:
-                    this.writer.sendMessage(
-                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+                    writer.sendMessage(
+                    		ServerErrors.ERROR_1001.getString(
+                    				lenRead <= 0? "empty" : 
+                					ArraysUtil.toString(message, 0, lenRead)
+        					)
             		);
-                    this.writer.flush();
+                    writer.flush();
 					break;
 				}
             }
             catch (NullPointerException ex) {
-               	if(params[0] == null && readMessage < 0){
+               	if(lenRead <= 0 && readMessage < 0){
                		this.run = false;
                		continue;
                	}
                	else
-               	if(params[0] == null){
-                    this.writer.sendMessage(
-                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+               	if(lenRead <= 0){
+                    writer.sendMessage(
+                    		ServerErrors.ERROR_1001.getString(
+                    				lenRead <= 0? "empty" : 
+                					ArraysUtil.toString(message, 0, lenRead)
+        					)
             		);
-                    this.writer.flush();
+                    writer.flush();
             	}
                	else
                		throw ex;
             }
             catch (ArrayIndexOutOfBoundsException ex) {
             	ex.printStackTrace();
-                this.writer.sendMessage(ServerErrors.ERROR_1002.getString());
-                this.writer.flush();
+                writer.sendMessage(ServerErrors.ERROR_1002.getString());
+                writer.flush();
             }
             catch (ServerErrorException ex) {
             	ex.printStackTrace();
             	if(ex.getCause() instanceof EOFException && !"premature end of data".equals(ex.getCause().getMessage()))
         			throw ex;
             	
-                this.writer.sendMessage(ex.getMessage());
-                this.writer.flush();
+                writer.sendMessage(ex.getMessage());
+                writer.flush();
             }
             catch(Throwable ex){
-            	//System.out.println(new String(old));
-            	//System.out.println(new String(message));
             	ex.printStackTrace();
                 throw ex;
             }
