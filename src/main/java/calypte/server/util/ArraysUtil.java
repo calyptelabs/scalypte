@@ -219,11 +219,11 @@ public class ArraysUtil {
 	 * @return inteiro.
 	 */
 	public static int toInt(byte[] value, int o, int l){
-		int limit      = value.length - 1;
-		byte signal    = value[0] == NEGATIVE? FALSE : TRUE;
-		byte hasSignal = value[0] == NEGATIVE || value[0] == POSITIVE? TRUE : FALSE;
+		int limit      = o + l - 1;
+		byte signal    = value[o] == NEGATIVE? FALSE : TRUE;
+		byte hasSignal = value[o] == NEGATIVE || value[o] == POSITIVE? TRUE : FALSE;
 		
-		int start  = hasSignal == TRUE? 1 : 0;
+		int start  = o + (hasSignal == TRUE? 1 : 0);
 		int result = 0;
 		int mult   = 1;
 		
@@ -414,15 +414,14 @@ public class ArraysUtil {
 	 * @return texto.
 	 */
 	public static String toString(byte[] value, int o, int l){
-		char[] chars = new char[value.length];
-		int len      = o + l;
-		int i        = o;
+		char[] chars = new char[l];
+		int i        = 0;
 		
-		while(i<len){
-			chars[i] = (char)value[i++];
+		while(i<l){
+			chars[i] = (char)value[o + i++];
 		}
 		
-		return new String(chars);
+		return new String(chars, 0, l);
 	}
 	
 	public static byte[] concat(byte[][] value){

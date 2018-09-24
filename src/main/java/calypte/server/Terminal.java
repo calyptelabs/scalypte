@@ -161,7 +161,9 @@ public class Terminal {
     
     public void execute() throws Throwable{
     	byte[] message    = new byte[cache.getConfig().getMaxSizeKey() + 30];
+    	byte[] cmdBuffer  = new byte[256];
         Parameters params = new Parameters();
+        params.setSeparator(SEPARATOR_CHAR);
         int readMessage   = -1;
         int lenRead       = 0;
         
@@ -171,7 +173,7 @@ public class Terminal {
             try{
                 readMessage = reader.readMessage(message, 0, message.length);
                 params.reset();
-                lenRead = params.readNext(message, 0, message.length);
+                lenRead = params.readNext(cmdBuffer, 0, cmdBuffer.length);
                 switch (message[0]) {
 				case 'g':
 					
