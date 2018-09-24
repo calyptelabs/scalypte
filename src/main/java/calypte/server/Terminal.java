@@ -174,6 +174,7 @@ public class Terminal {
                 readMessage = reader.readMessage(message, 0, message.length);
                 params.reset();
                 lenRead = params.readNext(cmdBuffer, 0, cmdBuffer.length);
+                
                 switch (message[0]) {
 				case 'g':
 					
