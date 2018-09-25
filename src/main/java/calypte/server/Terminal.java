@@ -167,6 +167,7 @@ public class Terminal {
         int readMessage   = -1;
         int lenRead       = 0;
         int cmdBufferLen  = cmdBuffer.length;
+        int messageLen    = message.length;
         
         params.setData(message);
         
@@ -179,7 +180,7 @@ public class Terminal {
                 params.reset();
                 
                 //lê o cabeçalho do comando
-                readMessage = reader.readMessage(message, 0, message.length);
+                readMessage = reader.readMessage(message, 0, messageLen);
                 
                 //lê o nome do comando
                 lenRead     = params.readNext(cmdBuffer, 0, readMessage > cmdBufferLen? cmdBufferLen : readMessage);
