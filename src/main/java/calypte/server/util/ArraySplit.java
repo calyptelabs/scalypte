@@ -56,8 +56,8 @@ public class ArraySplit {
 			while(end<len && data[end++] != separator);
 			
 			int cp = end < len? end - start - 1 : end - start;
-			
-			ArraysUtil.arraycopy(data, start, buf, o, cp > l? l : cp);
+			cp     = cp > l? l : cp;
+			ArraysUtil.arraycopy(data, start, buf, o, cp);
 			
 			start  = end;
 			
@@ -68,6 +68,23 @@ public class ArraySplit {
 		}
 	}
 
+	public int ignoreReadNext(){
+		try{
+			int end = start;
+			
+			while(end<len && data[end++] != separator);
+			
+			int cp = end < len? end - start - 1 : end - start;
+			
+			start  = end;
+			
+			return cp;
+		}
+		catch(Throwable e){
+			return -1;
+		}
+	}
+	
 	public String readNextString(){
 		try{
 			int end = start;

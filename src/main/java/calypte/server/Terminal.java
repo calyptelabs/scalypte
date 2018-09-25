@@ -166,14 +166,23 @@ public class Terminal {
         params.setSeparator(SEPARATOR_CHAR);
         int readMessage   = -1;
         int lenRead       = 0;
+        int cmdBufferLen  = cmdBuffer.length;
         
         params.setData(message);
         
-        while(this.run){
+        while(run){
             try{
-                readMessage = reader.readMessage(message, 0, message.length);
+            	//marca com 0 o primeiro byte do buffer. Se não for lido nenhum byte, cai no default do switch
+            	message[0] = 0;
+            	
+            	//reinicia o deslocamento do buffer
                 params.reset();
-                lenRead = params.readNext(cmdBuffer, 0, cmdBuffer.length);
+                
+                //lê o cabeçalho do comando
+                readMessage = reader.readMessage(message, 0, message.length);
+                
+                //lê o nome do comando
+                lenRead     = params.readNext(cmdBuffer, 0, readMessage > cmdBufferLen? cmdBufferLen : readMessage);
                 
                 switch (message[0]) {
 				case 'g':
@@ -306,33 +315,24 @@ public class Terminal {
 	               	
 	               	break;
 				default:
-                    writer.sendMessage(
-                    		ServerErrors.ERROR_1001.getString(
-                    				lenRead <= 0? "empty" : 
-                					ArraysUtil.toString(message, 0, lenRead)
-        					)
-            		);
-                    writer.flush();
+					if(readMessage < 0){
+	               		//se readMessage for menor que zero, indica que que a conexão com o servidor foi 
+						// encerrada pelo usuário e while deve ser também encerrado.
+                   		this.run = false;
+               		}
+               		else{
+               			//informa ao usuário que não existe o comando executado.
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+	                					ArraysUtil.toString(message, 0, lenRead)
+	        					)
+	            		);
+	                    writer.flush();
+               		}
+               		
 					break;
 				}
-            }
-            catch (NullPointerException ex) {
-               	if(lenRead <= 0 && readMessage < 0){
-               		this.run = false;
-               		continue;
-               	}
-               	else
-               	if(lenRead <= 0){
-                    writer.sendMessage(
-                    		ServerErrors.ERROR_1001.getString(
-                    				lenRead <= 0? "empty" : 
-                					ArraysUtil.toString(message, 0, lenRead)
-        					)
-            		);
-                    writer.flush();
-            	}
-               	else
-               		throw ex;
             }
             catch (ArrayIndexOutOfBoundsException ex) {
             	ex.printStackTrace();
