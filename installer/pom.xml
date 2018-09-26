@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>calypte</groupId>
-  <artifactId>scalypte</artifactId>
+  <artifactId>scalypte-installer</artifactId>
   <version>1.0.0.0</version>
   
-    <name>calypte</name>
-    <description>The Calypte is a general-purpose caching system with transaction support.</description>
+    <name>calypte-installer</name>
+    <description>Calypte installer</description>
     <url>https://github.com/calyptelabs/calypte</url>
 
 	<issueManagement>
@@ -40,6 +40,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+        <repositories>
+            <repository>
+                <id>unknown-jars-temp-repo</id>
+                <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+                <url>file:${project.basedir}/lib</url>
+            </repository>
+        </repositories>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -50,7 +58,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>calypte.server.Main</mainClass>
+							<mainClass>br.com.uoutec.installer.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -113,6 +121,19 @@
 					</execution>
 				</executions>
 			</plugin>
+                        <plugin>
+                            <artifactId>maven-assembly-plugin</artifactId>
+                            <configuration>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>br.com.uoutec.installer.Main</mainClass>
+                                    </manifest>
+                                </archive>
+                                <descriptorRefs>
+                                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                                </descriptorRefs>
+                            </configuration>
+                        </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -120,7 +141,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>calypte.server.Main</mainClass>
+							<mainClass>br.com.uoutec.installer.Main</mainClass>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>
@@ -137,10 +158,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>calypte</groupId>
-			<artifactId>calypte</artifactId>
-			<version>1.0</version>
+			<groupId>br.com.uoutec</groupId>
+			<artifactId>installer</artifactId>
+			<version>1.0.0.0</version>
 		</dependency>
+                <dependency>
+                    <groupId>com.github.dblock</groupId>
+                    <artifactId>oshi-core</artifactId>
+                    <version>LATEST</version>
+                </dependency>                
 	</dependencies>
   
 </project>

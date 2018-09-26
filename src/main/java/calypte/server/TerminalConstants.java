@@ -102,6 +102,8 @@ public class TerminalConstants {
 	public static final byte[] SHOW_VARS_CMD_DTA 			= "show_vars".getBytes();
 	
 	public static final byte[] EXIT_CMD_DTA 				= "exit".getBytes();
+
+	public static final byte[] FLUSH_CMD_DTA 				= "flush".getBytes();
 	
 	public static final byte[] SEPARATOR_COMMAND_DTA 		= new byte[]{' '};
 	

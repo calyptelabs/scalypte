@@ -28,6 +28,7 @@ import calypte.tx.TXCache;
 import calypte.server.command.BeginTransactionCommand;
 import calypte.server.command.CommitTransactionCommand;
 import calypte.server.command.ExitCommand;
+import calypte.server.command.FlushCommand;
 import calypte.server.command.GetCommand;
 import calypte.server.command.PutCommand;
 import calypte.server.command.RemoveCommand;
@@ -72,6 +73,8 @@ public class Terminal {
 	public static final Command SHOW_VAR	= new ShowVarCommand();
 	
 	public static final Command EXIT   		= new ExitCommand();
+	
+	public static final Command FLUSH  		= new FlushCommand();
 	
 	public static final byte SEPARATOR_CHAR = TerminalConstants.SEPARATOR_CHAR;
 	
@@ -303,6 +306,21 @@ public class Terminal {
 				case 'e':
 	               	if(ArraysUtil.equals(TerminalConstants.EXIT_CMD_DTA, message, 0, lenRead)){
 	        			EXIT.execute(this, cache, reader, writer, params);
+	               	}
+	                else{
+	                    writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(
+	                    				lenRead <= 0? "empty" : 
+                    					ArraysUtil.toString(message, 0, lenRead)
+            					)
+	            		);
+	                    writer.flush();
+	                }
+	               	
+	               	break;
+				case 'f':
+	               	if(ArraysUtil.equals(TerminalConstants.FLUSH_CMD_DTA, message, 0, lenRead)){
+	        			FLUSH.execute(this, cache, reader, writer, params);
 	               	}
 	                else{
 	                    writer.sendMessage(

@@ -122,6 +122,7 @@ public class CalypteServer {
         this.reuseAddress   = reuseAddress;
         this.maxConnections = maxConnections;
         this.port           = port;
+        this.backlog        = backlog;
         this.cache          = cache;
     }
     
