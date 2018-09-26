@@ -1,5 +1,5 @@
 # Calypte
-Cache de propósito geral com suporte transacional.
+Calypte é um sistema de cache de propósito geral com suporte transacional. É extremamente rápido, trabalha de forma eficiente com pouca memória e permite o armazenamento de dados em memória secundária.
 
 # Como instalar o servidor?
 
