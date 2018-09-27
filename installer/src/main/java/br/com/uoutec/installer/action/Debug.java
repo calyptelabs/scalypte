@@ -28,7 +28,7 @@ public class Debug {
     public static void main(String[] args) throws Throwable{
         
         System.setProperty("CreateInstallerJarFile",    "./target/scalypte-installer-1.0.0.0-jar-with-dependencies.jar");
-        System.setProperty("ExecuteInstallerJarFile",   "C:\\projetos\\calypte\\scalypte\\installer\\installer.jar");
+        System.setProperty("ExecuteInstallerJarFile",   "C:\\projetos\\calypte\\scalypte\\installer\\setup.jar");
         System.setProperty("ExecuteUninstallerJarFile", "C:/Program Files (x86)/uoutec/uninstaller.jar");
         System.setProperty("debugType", "createinstaller");
         

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringReader;
 
 import calypte.Configuration;
 
@@ -43,11 +44,8 @@ public class Main {
             System.exit(2);
         }
             
-        Configuration config = new Configuration();
-        config.load(new FileInputStream(f));
-     
         try{
-            CalypteServer server = new CalypteServer(config);
+            CalypteServer server = new CalypteServer(loadConfig(f));
             server.start();
         }
         catch(Throwable e){
@@ -55,5 +53,29 @@ public class Main {
             System.exit(2);
         }
     }
-    
+
+    private static Configuration loadConfig(File f) throws IOException{
+    	
+        FileInputStream fin   = new FileInputStream(f);
+    	StringBuilder builder = new StringBuilder();
+        try{
+        	int l;
+        	byte[] b = new byte[2048];
+        	while((l = fin.read(b)) > 0){
+        		builder.append(new String(b, 0, l));
+        	}
+        	
+        }
+        finally{
+        	fin.close();
+        }
+        
+        String propStr = builder.toString();
+        propStr = propStr.replace("\\","\\\\");
+        
+        Configuration config = new Configuration();
+        config.load(new StringReader(propStr));
+        
+        return config;
+    }
 }
