@@ -65,8 +65,8 @@ public class ArraysUtil {
 	public static void arraycopy(byte[] src, int srcPos,
             byte[] dest, int destPos,
             int length){
-		UNSAFE.copyMemory(src, BYTE_ARRAY_OFFSET + srcPos, dest, BYTE_ARRAY_OFFSET + destPos, length);
-		//System.arraycopy(src, srcPos, dest, destPos, length);
+		//UNSAFE.copyMemory(src, BYTE_ARRAY_OFFSET + srcPos, dest, BYTE_ARRAY_OFFSET + destPos, length);
+		System.arraycopy(src, srcPos, dest, destPos, length);
 	}
 	
 	/**
