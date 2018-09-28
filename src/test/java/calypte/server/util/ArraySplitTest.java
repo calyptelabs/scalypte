@@ -42,28 +42,28 @@ public class ArraySplitTest extends TestCase{
 	}
 	
 	public void testEmpty(){
-		header.setData("".getBytes());
+		header.setData("".getBytes(), 0);
 
 		l = header.readNext(b, 0, b.length);
 		assertTrue(Arrays.equals(ArraySplit.EMPTY, Arrays.copyOf(b, l)));
 	}
 	
 	public void testText(){
-		header.setData("get".getBytes());
+		header.setData("get".getBytes(), 3);
 		
 		l = header.readNext(b, 0, b.length);
 		assertTrue(Arrays.equals("get".getBytes(), Arrays.copyOf(b, l)));
 	}
 
 	public void testSingleChar(){
-		header.setData("g".getBytes());
+		header.setData("g".getBytes(), 1);
 		
 		l = header.readNext(b, 0, b.length);
 		assertTrue(Arrays.equals("g".getBytes(), Arrays.copyOf(b, l)));
 	}
 
 	public void testMultipleLastText(){
-		header.setData("get key".getBytes());
+		header.setData("get key".getBytes(), 7);
 		
 		l = header.readNext(b, 0, b.length);
 		assertTrue(Arrays.equals("get".getBytes(), Arrays.copyOf(b, l)));
@@ -77,7 +77,7 @@ public class ArraySplitTest extends TestCase{
 
 	public void testMultipleLastChar(){
 		
-		header.setData("get k".getBytes());
+		header.setData("get k".getBytes(), 5);
 
 		l = header.readNext(b, 0, b.length);
 		assertTrue(Arrays.equals("get".getBytes(), Arrays.copyOf(b, l)));
@@ -91,7 +91,33 @@ public class ArraySplitTest extends TestCase{
 
 	public void testMultiple(){
 		
-		header.setData("get key 0 120 0".getBytes());
+		header.setData("get key 0 120 0".getBytes(), 15);
+		
+		l = header.readNext(b, 0, b.length);
+		assertTrue(Arrays.equals("get".getBytes(), Arrays.copyOf(b, l)));
+		
+		l = header.readNext(b, 0, b.length);
+		assertTrue(Arrays.equals("key".getBytes(), Arrays.copyOf(b, l)));
+
+		l = header.readNext(b, 0, b.length);
+		assertTrue(Arrays.equals("0".getBytes(), Arrays.copyOf(b, l)));
+
+		l = header.readNext(b, 0, b.length);
+		assertTrue(Arrays.equals("120".getBytes(), Arrays.copyOf(b, l)));
+
+		l = header.readNext(b, 0, b.length);
+		assertTrue(Arrays.equals("0".getBytes(), Arrays.copyOf(b, l)));
+
+		l = header.readNext(b, 0, b.length);
+		assertTrue(Arrays.equals(ArraySplit.EMPTY, Arrays.copyOf(b, l)));
+	}
+
+	public void testMultipleArray(){
+		byte[] array = new byte[1024];
+		byte[] dta   = "get key 0 120 0".getBytes();
+		System.arraycopy(dta, 0, array, 0, dta.length);
+		
+		header.setData("get key 0 120 0".getBytes(), dta.length);
 		
 		l = header.readNext(b, 0, b.length);
 		assertTrue(Arrays.equals("get".getBytes(), Arrays.copyOf(b, l)));

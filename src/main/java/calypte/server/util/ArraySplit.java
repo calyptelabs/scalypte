@@ -35,13 +35,17 @@ public class ArraySplit {
 	
 	private byte separator;
 	
+	public void setLen(int len) {
+		this.len = len;
+	}
+
 	public void setSeparator(byte value){
 		separator = value;
 	}
 	
-	public void setData(byte[] value){
+	public void setData(byte[] value, int l){
 		data  = value;
-		len   = data.length;
+		len   = l;
 		start = 0;
 	}
 	
