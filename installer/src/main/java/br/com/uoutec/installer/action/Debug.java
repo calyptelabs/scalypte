@@ -31,7 +31,6 @@ public class Debug {
         System.setProperty("ExecuteInstallerJarFile",   "C:\\projetos\\calypte\\scalypte\\installer\\setup.jar");
         System.setProperty("ExecuteUninstallerJarFile", "C:/Program Files (x86)/uoutec/uninstaller.jar");
         System.setProperty("debugType", "createinstaller");
-        
         Main.setDebug(true);
         //Main.setDebugType(System.getProperty("debugType"));
         //Main.setDebugType("installer");
