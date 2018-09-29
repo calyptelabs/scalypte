@@ -18,10 +18,20 @@ Você pode instalar o cliente Calypte usando o maven.
 Adicione no pom.xml:
 
 ```
+<repositories>
+	<repository>
+	<id>calypte-repo</id>
+		<name>Calypte repository.</name>
+		<url>https://calypte.sourceforge.io/maven/2</url>
+	</repository>
+</repositories>
+
+...
+
 <dependency>
 	<groupId>calypte</groupId>
 	<artifactId>calypte</artifactId>
-	<version>1.0.0.0</version>
+	<version>1.0.0.2</version>
 </dependency>
 ```
 
