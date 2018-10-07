@@ -17,6 +17,7 @@
 
 package calypte.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -230,6 +231,7 @@ public class CalypteServer {
         this.backlog            = backlog;
         this.txManager          = (CacheTransactionManager)txManager;
         
+        System.setProperty("java.io.tmpdir", data_path + File.pathSeparator + "tmp");
     }
     
     private void initCache(Configuration c) {
