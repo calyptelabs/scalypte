@@ -20,6 +20,7 @@ package calypte.server;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 
 import calypte.Cache;
 import calypte.tx.CacheTransaction;
@@ -360,6 +361,20 @@ public class Terminal {
             	ex.printStackTrace();
                 writer.sendMessage(ServerErrors.ERROR_1002.getString());
                 writer.flush();
+            }
+            catch (ReadDataException ex) {
+            	if(ex.getCause() instanceof SocketException && !"connection reset".equalsIgnoreCase(ex.getCause().getMessage())) {
+        			throw ex;
+            	}
+        		run = false;
+        		break;
+            }
+            catch (WriteDataException ex) {
+            	if(ex.getCause() instanceof SocketException && !"connection reset".equalsIgnoreCase(ex.getCause().getMessage())) {
+        			throw ex;
+            	}
+        		run = false;
+        		break;
             }
             catch (ServerErrorException ex) {
             	ex.printStackTrace();
