@@ -26,12 +26,12 @@ import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import calypte.BasicCache;
 import calypte.BasicCacheHandler;
 import calypte.Cache;
 import calypte.CacheConstants;
 import calypte.CacheHandler;
 import calypte.CalypteConfig;
+import calypte.ConcurrentCache;
 import calypte.Configuration;
 import calypte.PropertiesCalypteConfig;
 import calypte.server.io.DefaultStreamFactory;
@@ -244,7 +244,7 @@ public class CalypteServer {
         	cache = new TXCacheImp(cacheHandler, txManager);
         }
         else{
-        	cache = new BasicCache(cacheHandler);
+        	cache = new ConcurrentCache(cacheHandler);
         }
     }
     

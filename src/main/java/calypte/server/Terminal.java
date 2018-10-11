@@ -155,6 +155,7 @@ public class Terminal {
             this.cache  = null;
             this.reader = null;
             this.writer = null;
+            this.socket = null;
         }
     }
     
@@ -363,18 +364,18 @@ public class Terminal {
                 writer.flush();
             }
             catch (ReadDataException ex) {
-            	if(ex.getCause() instanceof SocketException && !"connection reset".equalsIgnoreCase(ex.getCause().getMessage())) {
-        			throw ex;
+            	if(socket.isClosed()) {
+            		run = false;
+            		break;
             	}
-        		run = false;
-        		break;
+    			throw ex;
             }
             catch (WriteDataException ex) {
-            	if(ex.getCause() instanceof SocketException && !"connection reset".equalsIgnoreCase(ex.getCause().getMessage())) {
-        			throw ex;
+            	if(socket.isClosed()) {
+            		run = false;
+            		break;
             	}
-        		run = false;
-        		break;
+    			throw ex;
             }
             catch (ServerErrorException ex) {
             	ex.printStackTrace();
