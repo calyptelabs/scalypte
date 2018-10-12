@@ -231,7 +231,7 @@ public class CalypteServer {
         this.backlog            = backlog;
         this.txManager          = (CacheTransactionManager)txManager;
         
-        System.setProperty("java.io.tmpdir", data_path + File.pathSeparator + "tmp");
+        System.setProperty("java.io.tmpdir", data_path + File.separator + "tmp");
     }
     
     private void initCache(Configuration c) {
@@ -269,14 +269,11 @@ public class CalypteServer {
         
         this.globalVars.put("nodes_buffer_size",	calypteConfig.getNodesBufferSize());
         this.globalVars.put("nodes_page_size",		calypteConfig.getNodesPageSize());
-        this.globalVars.put("nodes_swap_factor",	calypteConfig.getNodesSwapFactor());
         this.globalVars.put("index_buffer_size",	calypteConfig.getIndexBufferSize());
         this.globalVars.put("index_page_size",		calypteConfig.getIndexPageSize());
-        this.globalVars.put("index_swap_factor",	calypteConfig.getIndexSwapFactor());
         this.globalVars.put("data_buffer_size",		calypteConfig.getDataBufferSize());
         this.globalVars.put("data_block_size",		calypteConfig.getDataBlockSize());
         this.globalVars.put("data_page_size",		calypteConfig.getDataPageSize());
-        this.globalVars.put("data_swap_factor",		calypteConfig.getDataSwapFactor());
         this.globalVars.put("max_size_entry",		calypteConfig.getMaxSizeEntry());
         this.globalVars.put("max_size_key",			calypteConfig.getMaxSizeKey());
         this.globalVars.put("swapper_thread",		calypteConfig.getSwapperThread());
