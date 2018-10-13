@@ -17,6 +17,9 @@
 
 package calypte.server;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class StartParamsParser {
 
 	private String configFile;
@@ -25,10 +28,13 @@ public class StartParamsParser {
 	
 	private String[] params;
 	
+	private Map<String, String> configuration;
+	
 	public StartParamsParser(String[] params){
-		this.params             = params;
-		this.configFile         = "./calypte.conf";
-		this.loggerFile         = "./log4j.configuration";
+		this.params        = params;
+		this.configFile    = "./calypte.conf";
+		this.loggerFile    = "./log4j.configuration";
+		this.configuration = new HashMap<String, String>();
 		this.parser();
 	}
 	
@@ -50,7 +56,17 @@ public class StartParamsParser {
 				}
 				this.loggerFile = parts[1].trim();
 			}
+			else
+			if(param.startsWith("--P")){
+				String[] parts = param.split("\\=");
+				parts[0] = parts[0].replaceAll("^\\-\\-P", "");
+				if(parts.length != 2 || parts[1].trim().isEmpty()){
+					throw new IllegalStateException("expected --P<property>=<value>");
+				}
 				
+				this.configuration.put(parts[0], parts[1]);
+			}
+			
 		}
 	}
 
@@ -60,6 +76,10 @@ public class StartParamsParser {
 
 	public String getLoggerFile() {
 		return loggerFile;
+	}
+	
+	public Map<String, String> getConfiguration(){
+		return configuration;
 	}
 	
 }
