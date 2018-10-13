@@ -26,6 +26,9 @@ import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import calypte.BasicCacheHandler;
 import calypte.Cache;
 import calypte.CacheConstants;
@@ -47,6 +50,10 @@ import calypte.tx.TXCacheImp;
  */
 public class CalypteServer {
     
+	private static final Logger logger = LoggerFactory.getLogger(CalypteServer.class);
+	
+	private static final String version = "Calypte server 1.0.0.3";
+	
     private ServerSocket serverSocket;
     
     private int port;
@@ -134,14 +141,19 @@ public class CalypteServer {
      * o servidor.
      */
     public void start() throws IOException{
+    	
+    	logger.info("Starting {} ", version);
+    	
         this.terminalFactory = new TerminalFactory(1, maxConnections);
         this.serverSocket    = new ServerSocket(port, backlog, address);
         this.executorService = Executors.newFixedThreadPool(maxConnections);
         this.streamFactory   = createStreamFactory();
         
-        this.serverSocket.setSoTimeout(timeout);
+        //this.serverSocket.setSoTimeout(timeout);
         this.serverSocket.setReuseAddress(reuseAddress);
 
+    	logger.info("{}", serverSocket);
+    	
         this.run = true;
         while(this.run){
             Socket socket = null;
@@ -150,7 +162,7 @@ public class CalypteServer {
                 socket.setTcpNoDelay(true);
                 socket.setSendBufferSize(writeBufferSize);
                 socket.setReceiveBufferSize(readBufferSize);
-                socket.setKeepAlive(false);
+                //socket.setKeepAlive(false);
                 socket.setOOBInline(true);
 
                 Terminal terminal = terminalFactory.getInstance();
@@ -168,7 +180,7 @@ public class CalypteServer {
                 executorService.execute(task);
             }
             catch(Exception e){
-                //e.printStackTrace();
+                logger.error("fail to create terminal task", e);
             }
         }
     }
@@ -227,11 +239,12 @@ public class CalypteServer {
         this.dataPath           = data_path;
         this.txSupport          = txSupport;
         this.txTimeout          = txTimeout;
-        this.address            = addressName == null? null : InetAddress.getByName(addressName);
+        this.address            = addressName == null || addressName.equals("0.0.0.0")? null : InetAddress.getByName(addressName);
         this.backlog            = backlog;
         this.txManager          = (CacheTransactionManager)txManager;
         
         System.setProperty("java.io.tmpdir", data_path + File.separator + "tmp");
+        
     }
     
     private void initCache(Configuration c) {

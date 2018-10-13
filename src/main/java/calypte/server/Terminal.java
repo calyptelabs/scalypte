@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import calypte.Cache;
 import calypte.tx.CacheTransaction;
 import calypte.tx.CacheTransactionManager;
@@ -51,6 +54,8 @@ import calypte.server.util.ArraysUtil;
 @SuppressWarnings("unused")
 public class Terminal {
     
+	private static final Logger logger = LoggerFactory.getLogger(Terminal.class);
+	
 	public static final Command PUT    		= new PutCommand();
 
 	public static final Command SET    		= new SetCommand();
@@ -111,6 +116,7 @@ public class Terminal {
             this.writer          = new TextTerminalWriter(this.socket, streamFactory, writeBufferSize);
             this.run             = true;
             this.terminalVars    = terminalVars;
+            logger.trace("connection opened: " + this.socket);
         }
         catch(Throwable e){
             if(this.socket != null)
@@ -138,19 +144,21 @@ public class Terminal {
 			}
 		}
 		catch(Throwable e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
     }
     
     private void closeConnection(){
         try{
-            if(this.socket != null)
+            if(this.socket != null) {
                 this.socket.close();
+            }
 		}
 		catch(Throwable e){
 			e.printStackTrace();
 		}
         finally{
+            logger.trace("connection closed: " + this.socket);
             this.run    = false;
             this.cache  = null;
             this.reader = null;
@@ -340,9 +348,9 @@ public class Terminal {
 	               	break;
 				default:
 					if(readMessage < 0){
-	               		//se readMessage for menor que zero, indica que que a conexão com o servidor foi 
+	               		//se readMessage for menor que zero, indica que a conexão com o servidor foi 
 						// encerrada pelo usuário e while deve ser também encerrado.
-                   		this.run = false;
+						this.run = false;
                		}
                		else{
                			//informa ao usuário que não existe o comando executado.
@@ -363,20 +371,6 @@ public class Terminal {
                 writer.sendMessage(ServerErrors.ERROR_1002.getString());
                 writer.flush();
             }
-            catch (ReadDataException ex) {
-            	if(socket.isClosed()) {
-            		run = false;
-            		break;
-            	}
-    			throw ex;
-            }
-            catch (WriteDataException ex) {
-            	if(socket.isClosed()) {
-            		run = false;
-            		break;
-            	}
-    			throw ex;
-            }
             catch (ServerErrorException ex) {
             	ex.printStackTrace();
             	if(ex.getCause() instanceof EOFException && !"premature end of data".equals(ex.getCause().getMessage()))
@@ -386,7 +380,6 @@ public class Terminal {
                 writer.flush();
             }
             catch(Throwable ex){
-            	ex.printStackTrace();
                 throw ex;
             }
         }

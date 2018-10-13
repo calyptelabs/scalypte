@@ -21,8 +21,10 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-import calypte.Cache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import calypte.Cache;
 import calypte.server.io.StreamFactory;
 import calypte.server.terminalinfolisteners.AutoCommitListener;
 
@@ -32,6 +34,8 @@ import calypte.server.terminalinfolisteners.AutoCommitListener;
  */
 class TerminalTask implements Runnable{
 
+	private static final Logger logger = LoggerFactory.getLogger(TerminalTask.class);
+	
     private final Terminal terminal;
     
     private final TerminalFactory factory;
@@ -73,7 +77,7 @@ class TerminalTask implements Runnable{
             this.terminal.execute();
         }
         catch(Throwable e){
-            e.printStackTrace();
+        	logger.error("terminal error", e);
         }
         finally{
             try{

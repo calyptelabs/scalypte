@@ -21,12 +21,17 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author Ribeiro
  */
 class TerminalFactory {
     
+	private static final Logger logger = LoggerFactory.getLogger(TerminalFactory.class);
+	
     private int createdInstances;
     
     private final int minInstances;
@@ -60,17 +65,21 @@ class TerminalFactory {
         
     }
     
-    public synchronized Terminal getInstance() throws InterruptedException {
+    public Terminal getInstance() throws InterruptedException {
         
         Terminal terminal = this.instances.poll();
         
         if(terminal == null){
-            if(this.createdInstances < this.maxInstances){
-                terminal = new Terminal();
-                this.createdInstances++;
-            }
-            else
-                terminal = this.instances.take();
+        	synchronized(this) {
+	            if(this.createdInstances < this.maxInstances){
+	                terminal = new Terminal();
+	                this.createdInstances++;
+	            }
+        	}
+
+        	if(terminal == null) {
+        		terminal = this.instances.take();
+        	}
         }
         
         this.countInstances++;
@@ -78,17 +87,21 @@ class TerminalFactory {
         return terminal;
     }
 
-    public synchronized Terminal tryGetInstance(long l, TimeUnit tu) throws InterruptedException {
+    public Terminal tryGetInstance(long l, TimeUnit tu) throws InterruptedException {
         
         Terminal terminal = this.instances.poll();
         
         if(terminal == null){
-            if(this.createdInstances < this.maxInstances){
-                terminal = new Terminal();
-                this.createdInstances++;
-            }
-            else
+        	synchronized (this) {
+	            if(this.createdInstances < this.maxInstances){
+	                terminal = new Terminal();
+	                this.createdInstances++;
+	            }
+        	}
+        	
+        	if(terminal == null) {
                 terminal = this.instances.poll(l, tu);
+        	}
         }
         
         this.countInstances++;
@@ -96,9 +109,11 @@ class TerminalFactory {
         return terminal;
     }
     
-    public synchronized void release(Terminal terminal){
-        this.currentInstances--;
-        this.instances.add(terminal);
+    public void release(Terminal terminal){
+    	synchronized(this) {
+	        this.currentInstances--;
+	        this.instances.add(terminal);
+    	}
     }
     
     public int getMinInstances() {

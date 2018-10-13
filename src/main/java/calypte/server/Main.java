@@ -23,6 +23,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import calypte.Configuration;
 
 /**
@@ -31,30 +35,47 @@ import calypte.Configuration;
  */
 public class Main {
     
+	private static final Logger logger = LoggerFactory.getLogger(Main.class);
+	
     public static void main(String[] params) throws IOException{
     	StartParamsParser paramsParser = new StartParamsParser(params);
-    	start(paramsParser.getConfigFile());
+    	start(paramsParser);
     }
     
-    private static void start(String configFile) throws FileNotFoundException, IOException{
-        File f = new File(configFile);
-        
-        if(!f.exists() || !f.canRead()){
-            System.out.println("configuration not found!");
-            System.exit(2);
-        }
-            
+    private static void start(StartParamsParser paramsParser) throws FileNotFoundException, IOException{
+    	discoverServerDir(paramsParser);
+    	loadLoggerConfig(paramsParser.getLoggerFile());
+    	startServer(paramsParser);
+    }
+
+    private static void startServer(StartParamsParser paramsParser) {
         try{
-            CalypteServer server = new CalypteServer(loadConfig(f));
+        	Configuration config = getConfiguration(paramsParser.getConfigFile());
+            CalypteServer server = new CalypteServer(config);
             server.start();
         }
         catch(Throwable e){
-            e.printStackTrace();
+            logger.error("fail to start server", e);
             System.exit(2);
         }
     }
+    
+    private static void discoverServerDir(StartParamsParser paramsParser) {
+    	File configFile = new File(paramsParser.getConfigFile());
+    	File path = configFile.getParentFile();
+    	String[] list = path.list();
+    	System.setProperty("server.dir", path.getAbsolutePath());
+    }
+    
+    private static Configuration getConfiguration(String configFile) throws IOException{
+    	
+    	logger.info("loading configuration file: " + configFile);
+    	
+    	File f = new File(configFile);
 
-    private static Configuration loadConfig(File f) throws IOException{
+        if(!f.exists() || !f.canRead()){
+        	throw new IOException("configuration file not found");
+        }
     	
         FileInputStream fin   = new FileInputStream(f);
     	StringBuilder builder = new StringBuilder();
@@ -78,4 +99,16 @@ public class Main {
         
         return config;
     }
+    
+    private static void loadLoggerConfig(String loggerConfigFile) throws IOException{
+
+    	File f = new File(loggerConfigFile);
+
+        if(!f.exists() || !f.canRead()){
+        	throw new IOException("logger file not found");
+        }
+    	
+		PropertyConfigurator.configure(loggerConfigFile);
+    }
+    
 }
