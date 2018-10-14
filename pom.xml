@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>calypte</groupId>
   <artifactId>scalypte</artifactId>
-  <version>1.0.0.2</version>
+  <version>1.0.0.3</version>
   
     <name>calypte</name>
     <description>The Calypte is a general-purpose caching system with transaction support.</description>
