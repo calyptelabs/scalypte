@@ -379,6 +379,20 @@ public class Terminal {
                 writer.sendMessage(ex.getMessage());
                 writer.flush();
             }
+            catch(ReadDataException ex){
+            	if(ex.getCause() instanceof SocketException) {
+            		run = false;
+            	}
+            	else
+            		throw ex;
+            }
+            catch(WriteDataException ex){
+            	if(ex.getCause() instanceof SocketException) {
+            		run = false;
+            	}
+            	else
+            		throw ex;
+            }
             catch(Throwable ex){
                 throw ex;
             }

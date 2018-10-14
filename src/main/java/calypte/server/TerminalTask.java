@@ -82,12 +82,14 @@ class TerminalTask implements Runnable{
         finally{
             try{
                 terminal.destroy();
+                factory.release(this.terminal);
             }
             catch(Exception e){
                 e.printStackTrace();
             }
-            this.factory.release(this.terminal);
-            updateInfo();
+            finally {
+            	updateInfo();
+            }
         }
     }
     

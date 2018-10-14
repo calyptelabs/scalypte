@@ -20,6 +20,7 @@ package calypte.server;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,17 +33,17 @@ class TerminalFactory {
     
 	private static final Logger logger = LoggerFactory.getLogger(TerminalFactory.class);
 	
-    private int createdInstances;
-    
     private final int minInstances;
     
     private final int maxInstances;
     
     private final BlockingQueue<Terminal> instances;
 
-    private int countInstances;
+    private AtomicLong countInstances;
     
-    private int currentInstances;
+    private AtomicLong currentInstances;
+    
+    private volatile int createdInstances;
     
     public TerminalFactory(int minInstances, int maxInstances){
 
@@ -57,11 +58,15 @@ class TerminalFactory {
 
         this.minInstances     = minInstances;
         this.maxInstances     = maxInstances;
+        this.countInstances   = new AtomicLong();
+        this.currentInstances = new AtomicLong();
         this.instances        = new ArrayBlockingQueue<Terminal>(this.maxInstances);
         this.createdInstances = 0;
         
-        for(int i=0;i<this.minInstances;i++)
+        for(int i=0;i<this.minInstances;i++) {
             this.instances.add(new Terminal());
+            createdInstances++;
+        }
         
     }
     
@@ -73,7 +78,7 @@ class TerminalFactory {
         	synchronized(this) {
 	            if(this.createdInstances < this.maxInstances){
 	                terminal = new Terminal();
-	                this.createdInstances++;
+	                createdInstances++;
 	            }
         	}
 
@@ -82,8 +87,9 @@ class TerminalFactory {
         	}
         }
         
-        this.countInstances++;
-        this.currentInstances++;
+        countInstances.incrementAndGet();
+        currentInstances.incrementAndGet();
+        
         return terminal;
     }
 
@@ -95,7 +101,7 @@ class TerminalFactory {
         	synchronized (this) {
 	            if(this.createdInstances < this.maxInstances){
 	                terminal = new Terminal();
-	                this.createdInstances++;
+	                createdInstances++;
 	            }
         	}
         	
@@ -104,15 +110,15 @@ class TerminalFactory {
         	}
         }
         
-        this.countInstances++;
-        this.currentInstances++;
+        countInstances.incrementAndGet();
+        currentInstances.incrementAndGet();
         return terminal;
     }
     
-    public void release(Terminal terminal){
+    public void release(Terminal terminal) throws InterruptedException{
     	synchronized(this) {
-	        this.currentInstances--;
-	        this.instances.add(terminal);
+	        currentInstances.decrementAndGet();
+	        instances.put(terminal);
     	}
     }
     
@@ -124,12 +130,12 @@ class TerminalFactory {
         return maxInstances;
     }
 
-    public synchronized int getCountInstances() {
-        return countInstances;
+    public long getCountInstances() {
+        return countInstances.get();
     }
 
-    public synchronized int getCurrentInstances() {
-        return currentInstances;
+    public long getCurrentInstances() {
+        return currentInstances.get();
     }
     
 }
