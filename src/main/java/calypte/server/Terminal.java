@@ -116,7 +116,7 @@ public class Terminal {
             this.writer          = new TextTerminalWriter(this.socket, streamFactory, writeBufferSize);
             this.run             = true;
             this.terminalVars    = terminalVars;
-            logger.trace("connection opened: " + this.socket);
+            logger.info("connection opened: " + this.socket);
         }
         catch(Throwable e){
             if(this.socket != null)
@@ -158,7 +158,7 @@ public class Terminal {
 			e.printStackTrace();
 		}
         finally{
-            logger.trace("connection closed: " + this.socket);
+            logger.info("connection closed: " + this.socket);
             this.run    = false;
             this.cache  = null;
             this.reader = null;
@@ -366,39 +366,37 @@ public class Terminal {
 					break;
 				}
             }
-            catch (ArrayIndexOutOfBoundsException ex) {
-            	ex.printStackTrace();
-                writer.sendMessage(ServerErrors.ERROR_1002.getString());
-                writer.flush();
-            }
-            catch (ServerErrorException ex) {
-            	ex.printStackTrace();
-            	if(ex.getCause() instanceof EOFException && !"premature end of data".equals(ex.getCause().getMessage()))
-        			throw ex;
-            	
-                writer.sendMessage(ex.getMessage());
-                writer.flush();
-            }
-            catch(ReadDataException ex){
-            	if(ex.getCause() instanceof SocketException) {
+            catch (Throwable ex) {
+            	if(isClosed(ex)) {
             		run = false;
             	}
-            	else
-            		throw ex;
-            }
-            catch(WriteDataException ex){
-            	if(ex.getCause() instanceof SocketException) {
-            		run = false;
+            	else {
+	            	logger.error("terminal fail", ex);
+	                writer.sendMessage(ServerErrors.ERROR_1002.getString());
+	                writer.flush();
             	}
-            	else
-            		throw ex;
-            }
-            catch(Throwable ex){
-                throw ex;
             }
         }
     }
 
+    private boolean isClosed(Throwable e) {
+    	
+    	while(e != null) {
+        	if(e instanceof SocketException) {
+        		return true;
+        	}
+        	else
+        	if(e instanceof EOFException && !"premature end of data".equals(e.getMessage())) {
+    			return true;
+        	}
+        	
+        	e = e.getCause();
+    	}
+    	
+    	return false;
+    }
+    
+    
 	public TerminalReader getReader() {
 		return reader;
 	}

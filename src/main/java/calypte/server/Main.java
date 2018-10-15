@@ -273,6 +273,8 @@ public class Main {
      */
     private static void loadLoggerConfig(StartParamsParser paramsParser) throws IOException{
 
+    	System.setProperty("log.path", paramsParser.getLoggerPath());
+    	
     	String loggerConfigFile = paramsParser.getLoggerFile();
     	
     	File f = new File(loggerConfigFile);

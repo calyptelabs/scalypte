@@ -26,6 +26,8 @@ public class StartParamsParser {
 	
 	private String loggerFile;
 	
+	private String loggerPath;
+	
 	private String[] params;
 	
 	private Map<String, String> configuration;
@@ -34,6 +36,7 @@ public class StartParamsParser {
 		this.params        = params;
 		this.configFile    = "./calypte.conf";
 		this.loggerFile    = "./log4j.configuration";
+		this.loggerPath    = "/var/log/calypte";
 		this.configuration = new HashMap<String, String>();
 		this.parser();
 	}
@@ -57,6 +60,14 @@ public class StartParamsParser {
 				this.loggerFile = parts[1].trim();
 			}
 			else
+			if(param.startsWith("--log_path")){
+				String[] parts = param.split("\\=");
+				if(parts.length != 2 || parts[1].trim().isEmpty()){
+					throw new IllegalStateException("expected --log_path=<path>");
+				}
+				this.loggerPath = parts[1].trim();
+			}
+			else
 			if(param.startsWith("--P")){
 				String[] parts = param.split("\\=");
 				parts[0] = parts[0].replaceAll("^\\-\\-P", "");
@@ -78,6 +89,10 @@ public class StartParamsParser {
 		return loggerFile;
 	}
 	
+	public String getLoggerPath() {
+		return loggerPath;
+	}
+
 	public Map<String, String> getConfiguration(){
 		return configuration;
 	}

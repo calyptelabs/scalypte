@@ -245,7 +245,6 @@ public class CalypteServer {
         
         System.setProperty("java.io.tmpdir", data_path + File.separator + "tmp");
         
-        logger.info("tmp path: " + System.getProperty("java.io.tmpdir"));
         logger.info("config: " + config.toString());
     }
     
