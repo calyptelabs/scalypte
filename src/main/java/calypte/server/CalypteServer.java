@@ -290,8 +290,9 @@ public class CalypteServer {
         this.globalVars.put("data_page_size",		calypteConfig.getDataPageSize());
         this.globalVars.put("max_size_entry",		calypteConfig.getMaxSizeEntry());
         this.globalVars.put("max_size_key",			calypteConfig.getMaxSizeKey());
-        this.globalVars.put("swapper_thread",		calypteConfig.getSwapperThread());
         this.globalVars.put("data_path",			calypteConfig.getDataPath());
+        this.globalVars.put("tmp_path",				System.getProperty("java.io.tmpdir"));
+        this.globalVars.put("log_path",				System.getProperty("log.path"));
         
     }
     
