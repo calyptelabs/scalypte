@@ -382,6 +382,7 @@ public class Terminal {
     private boolean isClosed(Throwable e) {
     	
     	while(e != null) {
+    		//e.printStackTrace();
         	if(e instanceof SocketException) {
         		return true;
         	}
