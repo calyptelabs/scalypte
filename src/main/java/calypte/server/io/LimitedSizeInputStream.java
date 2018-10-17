@@ -69,6 +69,10 @@ public class LimitedSizeInputStream
     	return l;
     }
     
+    public int available() throws IOException {
+    	return size - read;
+    }
+    
     public void close() throws IOException{
     	int toRead = size - read;
     	if(toRead > 0){
