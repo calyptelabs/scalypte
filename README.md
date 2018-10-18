@@ -5,7 +5,7 @@ Calypte é um sistema de cache de propósito geral com suporte transacional. É 
 
 1. git clone https://github.com/calyptelabs/scalypte.git
 2. mvn clean package
-3. java -Xmx300m -jar scalypte-1.0.0.3.jar
+3. java -Xmx300m -jar scalypte-1.0.2.0.jar
 
 Mais informações: https://calyptelabs.github.io/install.html
 
@@ -31,7 +31,7 @@ Adicione no pom.xml:
 <dependency>
 	<groupId>calypte</groupId>
 	<artifactId>calypte</artifactId>
-	<version>1.0.0.3</version>
+	<version>1.0.2.0</version>
 </dependency>
 ```
 
