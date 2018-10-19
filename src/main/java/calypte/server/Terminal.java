@@ -26,9 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import calypte.Cache;
-import calypte.tx.CacheTransaction;
-import calypte.tx.CacheTransactionManager;
-import calypte.tx.TXCache;
+import calypte.CacheError;
 import calypte.server.command.BeginTransactionCommand;
 import calypte.server.command.CommitTransactionCommand;
 import calypte.server.command.ExitCommand;
@@ -46,6 +44,9 @@ import calypte.server.error.ServerErrorException;
 import calypte.server.error.ServerErrors;
 import calypte.server.io.StreamFactory;
 import calypte.server.util.ArraysUtil;
+import calypte.tx.CacheTransaction;
+import calypte.tx.CacheTransactionManager;
+import calypte.tx.TXCache;
 
 /**
  *
@@ -372,7 +373,11 @@ public class Terminal {
             	}
             	else {
 	            	logger.error("terminal fail", ex);
-	                writer.sendMessage(ServerErrors.ERROR_1002.getString());
+	            	CacheError e =
+            			ex instanceof ServerErrorException?
+        					((ServerErrorException)ex).getError() :
+        					ServerErrors.ERROR_1002;
+	                writer.sendMessage(e.getString());
 	                writer.flush();
             	}
             }
