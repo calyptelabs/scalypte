@@ -133,6 +133,130 @@ public class PutCommandTest extends TestCase{
 	}
 	
 	/*  */
+
+	public void testRemoveStoredKXL0() throws IOException {
+		client.send("put key 0 0 0 0");
+		String r = client.read();
+		assertEquals("ERROR 1004: Bad command syntax error!", r);
+	}
+	
+	public void testRemoveStoredK1L0() throws IOException {
+		client.send("put k 0 0 0 0");
+		String r = client.read();
+		assertEquals("ERROR 1004: Bad command syntax error!", r);
+	}
+
+	public void testRemoveStoredK1LX() throws IOException {
+		client.send("put k 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		String r = client.read();
+		assertEquals("stored", r);
+
+		client.send("remove k 0");
+		r = client.read();
+		assertEquals("ok", r);
+		
+		client.send("put k 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		r = client.read();
+		assertEquals("stored", r);
+	}
+	
+	public void testRemoveStoredKxL1() throws IOException {
+		client.send("put key 0 0 1 0");
+		client.send("a\r\n".getBytes());
+		String r = client.read();
+		assertEquals("stored", r);
+		
+		client.send("remove key 0");
+		r = client.read();
+		assertEquals("ok", r);
+		
+		client.send("put key 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		r = client.read();
+		assertEquals("stored", r);
+	}
+
+	public void testRemoveStoredKxLx() throws IOException {
+		client.send("put key 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		String r = client.read();
+		assertEquals("stored", r);
+		
+		client.send("remove key 0");
+		r = client.read();
+		assertEquals("ok", r);
+		
+		client.send("put key 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		r = client.read();
+		assertEquals("stored", r);
+	}
+	
+	/*  */
+
+	public void testFlushStoredKXL0() throws IOException {
+		client.send("put key 0 0 0 0");
+		String r = client.read();
+		assertEquals("ERROR 1004: Bad command syntax error!", r);
+	}
+	
+	public void testFlushStoredK1L0() throws IOException {
+		client.send("put k 0 0 0 0");
+		String r = client.read();
+		assertEquals("ERROR 1004: Bad command syntax error!", r);
+	}
+
+	public void testFlushStoredK1LX() throws IOException {
+		client.send("put k 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		String r = client.read();
+		assertEquals("stored", r);
+
+		client.send("flush");
+		r = client.read();
+		assertEquals("ok", r);
+		
+		client.send("put k 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		r = client.read();
+		assertEquals("stored", r);
+	}
+	
+	public void testFlushStoredKxL1() throws IOException {
+		client.send("put key 0 0 1 0");
+		client.send("a\r\n".getBytes());
+		String r = client.read();
+		assertEquals("stored", r);
+		
+		client.send("flush");
+		r = client.read();
+		assertEquals("ok", r);
+		
+		client.send("put key 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		r = client.read();
+		assertEquals("stored", r);
+	}
+
+	public void testFlushStoredKxLx() throws IOException {
+		client.send("put key 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		String r = client.read();
+		assertEquals("stored", r);
+		
+		client.send("flush");
+		r = client.read();
+		assertEquals("ok", r);
+		
+		client.send("put key 0 0 5 0");
+		client.send("teste\r\n".getBytes());
+		r = client.read();
+		assertEquals("stored", r);
+	}
+	
+	/*  */
 	
 	public void testTimeToLiveNeg() throws IOException {
 		client.send("put key -1 0 5 0");

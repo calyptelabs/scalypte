@@ -21,7 +21,7 @@ public class ClientHelper {
 	}
 	
 	public void send(String cmd) throws IOException {
-		cmd += cmd + "\r\n";
+		cmd += "\r\n";
 		o.write(cmd.getBytes());
 		o.flush();
 	}
