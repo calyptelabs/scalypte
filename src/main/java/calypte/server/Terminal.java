@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import calypte.Cache;
 import calypte.CacheError;
+import calypte.CacheException;
 import calypte.server.command.BeginTransactionCommand;
 import calypte.server.command.CommitTransactionCommand;
 import calypte.server.command.ExitCommand;
@@ -373,12 +374,15 @@ public class Terminal {
             	}
             	else {
 	            	logger.error("terminal fail", ex);
-	            	CacheError e =
-            			ex instanceof ServerErrorException?
-        					((ServerErrorException)ex).getError() :
-        					ServerErrors.ERROR_1002;
-	                writer.sendMessage(e.getString());
-	                writer.flush();
+	            	if(ex instanceof CacheException) {
+	            		CacheException e = (CacheException)ex;
+		                writer.sendMessage(e.getError().getString(e.getParams()));
+		                writer.flush();
+	            	}
+	            	else {
+    	                writer.sendMessage(ServerErrors.ERROR_1005.getString());
+    	                writer.flush();
+	            	}
             	}
             }
         }

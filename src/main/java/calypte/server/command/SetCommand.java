@@ -54,43 +54,29 @@ public class SetCommand extends AbstractCommand{
 
 		try{
 			key = params.readNextString();
+        	timeToLive = params.readNextInt();
+        	timeToIdle = params.readNextInt();
+            size = params.readNextInt();
 			
 			if(key == null){
 		        throw new NullPointerException();
 			}
-	    }
-	    catch(Throwable e){
-	        throw new ServerErrorException(ServerErrors.ERROR_1003, "key");
-	    }
-		
-        try{
-        	timeToLive = params.readNextInt();
+        	
         	if(timeToLive < 0){
         		throw new IllegalStateException();
         	}
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "timeToLive");
-        }
-
-        try{
-        	timeToIdle = params.readNextInt();
+        	
         	if(timeToIdle < 0){
         		throw new IllegalStateException();
         	}
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "timeToIdle");
-        }
-
-        try{
-            size = params.readNextInt();
+        	
         	if(size <= 0){
         		throw new IllegalStateException();
         	}
+        	
         }
         catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "size");
+	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
         }
         
         InputStream stream = reader.getStream(size);
