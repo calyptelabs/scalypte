@@ -27,6 +27,7 @@ import sun.misc.Unsafe;
  * @author Ribeiro
  *
  */
+@SuppressWarnings("restriction")
 public class ArraysUtil {
 
 	private static final long[][] longDecimalPlaces = new long[19][];
@@ -75,7 +76,7 @@ public class ArraysUtil {
 	
 	private static final Unsafe UNSAFE;
 	
-    private static final long BYTE_ARRAY_OFFSET;
+	private static final long BYTE_ARRAY_OFFSET;
     
     static {
         try {
@@ -245,6 +246,10 @@ public class ArraysUtil {
 	 */
 	public static int toInt(byte[] value, int o, int l){
 		try {
+			if(l <=0) {
+				throw new IllegalStateException("len");
+			}
+			
 			int limit      = o + l - 1;
 			byte signal    = value[o] == NEGATIVE? FALSE : TRUE;
 			byte hasSignal = value[o] == NEGATIVE || value[o] == POSITIVE? TRUE : FALSE;
@@ -264,6 +269,9 @@ public class ArraysUtil {
 		}
 		catch(IndexOutOfBoundsException e) {
 			throw new NumberFormatException(new String(value, o, l));
+		}
+		catch(IllegalStateException e) {
+			throw new NumberFormatException();
 		}
 			
 	}
@@ -378,12 +386,28 @@ public class ArraysUtil {
 	}
 
 	/**
+	 * Converte um texto representado por um arranjo de bytes em um booleano.
+	 * @param value arranjo.
+	 * @return booleano.
+	 */
+	public static boolean toBoolean(byte[] value, int off, int len){
+		if(off >= value.length || len != 1) {
+			throw new IllegalStateException();
+		}
+		
+		return value[off] == '1';
+	}
+	
+	/**
 	 * Converte um texto representado por um arranjo de bytes em um inteiro.
 	 * @param value arranjo.
 	 * @return inteiro.
 	 */
 	public static long toLong(byte[] value, int o, int len){
 		try {
+			if(len <=0) {
+				throw new IllegalStateException("len");
+			}
 			int limit      = o + len - 1;
 			byte signal    = value[o] == NEGATIVE? FALSE : TRUE;
 			byte hasSignal = value[o] == NEGATIVE || value[o] == POSITIVE? TRUE : FALSE;
@@ -403,6 +427,9 @@ public class ArraysUtil {
 		}
 		catch(IndexOutOfBoundsException e) {
 			throw new NumberFormatException(new String(value, o, len));
+		}
+		catch(IllegalStateException e) {
+			throw new NumberFormatException();
 		}
 	}
 	
@@ -436,7 +463,7 @@ public class ArraysUtil {
 			chars[i] = (char)value[o + i++];
 		}
 		
-		return new String(chars, 0, l);
+		return l == 0? null : new String(chars, 0, l);
 	}
 	
 	public static byte[] concat(byte[][] value){

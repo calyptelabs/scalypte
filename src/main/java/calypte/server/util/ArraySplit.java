@@ -55,11 +55,6 @@ public class ArraySplit {
 	
 	public int readNext(byte[] buf, int o, int l){
 		try{
-			
-			if(o + l > len) {
-				throw new IndexOutOfBoundsException((o + l) + " > " + len);
-			}
-			
 			int end = start;
 			
 			while(end<len && data[end++] != separator);
@@ -80,11 +75,6 @@ public class ArraySplit {
 
 	public int ignoreReadNext(){
 		try{
-			
-			if(start >= len) {
-				throw new IndexOutOfBoundsException(start + " >= " + len);
-			}
-			
 			int end = start;
 			
 			while(end<len && data[end++] != separator);
@@ -102,10 +92,6 @@ public class ArraySplit {
 	
 	public String readNextString(){
 		
-		if(start >= len) {
-			throw new IndexOutOfBoundsException( start + " >= " + len);
-		}
-		
 		int end = start;
 		
 		while(end<len && data[end++] != separator);
@@ -120,10 +106,6 @@ public class ArraySplit {
 	}
 
 	public long readNextLong(){
-		
-		if(start >= len) {
-			throw new IndexOutOfBoundsException(start + " >= " + len);
-		}
 		
 		int end = start;
 		
@@ -140,10 +122,6 @@ public class ArraySplit {
 
 	public int readNextInt(){
 		
-		if(start >= len) {
-			throw new IndexOutOfBoundsException(start + " >= " + len);
-		}
-		
 		int end = start;
 		
 		while(end<len && data[end++] != separator);
@@ -159,15 +137,13 @@ public class ArraySplit {
 	
 	public boolean readNextBoolean(){
 		
-		if(start >= len) {
-			throw new IndexOutOfBoundsException(start + " >= " + len);
-		}
-		
 		int end = start;
 		
 		while(end<len && data[end++] != separator);
+
+		int cp = end < len? end - start - 1 : end - start;
 		
-		boolean r = data[start] == '1';
+		boolean r = ArraysUtil.toBoolean(data, start, cp);
 		
 		start  = end;
 
