@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 public class ClientHelper {
 
@@ -48,12 +49,15 @@ public class ClientHelper {
 	}
 
 	public byte[] read(int len) throws IOException {
-		byte[] r = new byte[len];
-		int l = i.read(r, 0, len);
-		if(l != len) {
+		byte[] r = new byte[len + 2];
+		int l = i.read(r, 0, r.length);
+		if(l != len + 2) {
 			throw new IOException(l + " != " + len);
 		}
-		return r;
+		if(r[r.length - 1] != '\n' || r[r.length - 2] != '\r') {
+			throw new IOException("expected \\r\\n");
+		}
+		return Arrays.copyOf(r, r.length - 2);
 	}
 	
 	public void close() throws IOException {
