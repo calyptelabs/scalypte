@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 public class ClientHelper {
 
 	private Socket socket;
@@ -58,6 +60,28 @@ public class ClientHelper {
 			throw new IOException("expected \\r\\n");
 		}
 		return Arrays.copyOf(r, r.length - 2);
+	}
+	
+	public void testRequest(String[] request, String[] response) throws IOException {
+		for(String r: request) {
+			this.send(r);
+		}
+		
+		for(int i=0;i<response.length;i++) {
+			TestCase.assertEquals(response[i], this.read());
+		}
+	}
+
+	public void testRequest(String ... sequence) throws IOException {
+		for(String s: sequence) {
+			if(s.startsWith(">>")) {
+				this.send(s.substring(2));
+			}
+			else
+			if(s.startsWith("<<")) {
+				TestCase.assertEquals(s.substring(2), this.read());
+			}
+		}
 	}
 	
 	public void close() throws IOException {
