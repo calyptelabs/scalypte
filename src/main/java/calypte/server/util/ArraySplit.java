@@ -167,7 +167,7 @@ public class ArraySplit {
 		
 		while(end<len && data[end++] != separator);
 		
-		boolean r = data[start] != '0';
+		boolean r = data[start] == '1';
 		
 		start  = end;
 

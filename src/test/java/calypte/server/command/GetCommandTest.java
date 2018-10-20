@@ -149,7 +149,7 @@ public class GetCommandTest extends TestCase{
 		
 		client.send("get k 0");
 		r = client.read();
-		assertEquals("value key 0 0", r);
+		assertEquals("value k 0 0", r);
 		r = client.read();
 		assertEquals("end", r);
 	}
@@ -258,7 +258,9 @@ public class GetCommandTest extends TestCase{
 	public void testReservedChar() throws IOException {
 		client.send("get key a");
 		String r = client.read();
-		assertEquals("ERROR 1004: Bad command syntax error!", r);
+		assertEquals("value key 0 0", r);
+		r = client.read();
+		assertEquals("end", r);
 	}
 	
 }
