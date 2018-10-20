@@ -48,18 +48,12 @@ public class ClientHelper {
 	}
 
 	public byte[] read(int len) throws IOException {
-		InputStream st = socket.getInputStream();
-		try {
-			byte[] r = new byte[len];
-			int l = st.read(r, 0, len);
-			if(l != len) {
-				throw new IOException(l + " != " + len);
-			}
-			return r;
+		byte[] r = new byte[len];
+		int l = i.read(r, 0, len);
+		if(l != len) {
+			throw new IOException(l + " != " + len);
 		}
-		finally {
-			st.close();
-		}
+		return r;
 	}
 	
 	public void close() throws IOException {

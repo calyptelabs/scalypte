@@ -67,13 +67,13 @@ public class GetCommandTest extends TestCase{
 	/*  */
 
 	public void testKXL0() throws IOException {
-		client.send("get key ");
+		client.send("get key");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 	
 	public void testK1L0() throws IOException {
-		client.send("get k ");
+		client.send("get k");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
@@ -101,7 +101,7 @@ public class GetCommandTest extends TestCase{
 		
 		client.send("get key 0");
 		r = client.read();
-		assertEquals("value k 1 0", r);
+		assertEquals("value key 1 0", r);
 		r = new String(client.read(1));
 		assertEquals("a", r);
 		r = client.read();
@@ -148,7 +148,8 @@ public class GetCommandTest extends TestCase{
 		assertEquals("ok", r);
 		
 		client.send("get k 0");
-		client.send("value k 0 0\r\n".getBytes());
+		r = client.read();
+		assertEquals("value key 0 0", r);
 		r = client.read();
 		assertEquals("end", r);
 	}
@@ -164,7 +165,8 @@ public class GetCommandTest extends TestCase{
 		assertEquals("ok", r);
 		
 		client.send("get key 0");
-		client.send("value key 0 0\r\n".getBytes());
+		r = client.read();
+		assertEquals("value key 0 0", r);
 		r = client.read();
 		assertEquals("end", r);
 	}
@@ -180,7 +182,8 @@ public class GetCommandTest extends TestCase{
 		assertEquals("ok", r);
 		
 		client.send("get key 0");
-		client.send("value key 0 0\r\n".getBytes());
+		r = client.read();
+		assertEquals("value key 0 0", r);
 		r = client.read();
 		assertEquals("end", r);
 	}
@@ -210,7 +213,8 @@ public class GetCommandTest extends TestCase{
 		assertEquals("ok", r);
 		
 		client.send("get k 0");
-		client.send("value k 0 0\r\n".getBytes());
+		r = client.read();
+		assertEquals("value k 0 0", r);
 		r = client.read();
 		assertEquals("end", r);
 	}
@@ -226,7 +230,8 @@ public class GetCommandTest extends TestCase{
 		assertEquals("ok", r);
 		
 		client.send("get key 0");
-		client.send("value key 0 0\r\n".getBytes());
+		r = client.read();
+		assertEquals("value key 0 0", r);
 		r = client.read();
 		assertEquals("end", r);
 	}
@@ -242,7 +247,8 @@ public class GetCommandTest extends TestCase{
 		assertEquals("ok", r);
 		
 		client.send("get key 0");
-		client.send("value key 0 0\r\n".getBytes());
+		r = client.read();
+		assertEquals("value key 0 0", r);
 		r = client.read();
 		assertEquals("end", r);
 	}
