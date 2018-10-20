@@ -42,12 +42,19 @@ public class RemoveCommand extends AbstractCommand{
 			throws Throwable {
 
 		boolean result;
+		String name;
 		
-		String name = params.readNextString();
-		
-        if(name == null){
-        	throw new ServerErrorException(ServerErrors.ERROR_1003, "name");        	
-        }
+		try {
+			name = params.readNextString();
+			
+	        if(name == null){
+	        	throw new NullPointerException("key");        	
+	        }
+	    }
+	    catch(Throwable e){
+	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
+	    }
+	        
 		
         result = cache.remove(name);
     	
