@@ -22,7 +22,7 @@ import java.util.Arrays;
 import calypte.server.util.ArraySplit;
 import junit.framework.TestCase;
 
-public class ArraySplitTest extends TestCase{
+public class ArraysSplitTest extends TestCase{
 
 	private ArraySplit header;
 	

@@ -27,9 +27,51 @@ import sun.misc.Unsafe;
  * @author Ribeiro
  *
  */
-@SuppressWarnings("restriction")
 public class ArraysUtil {
 
+	private static final long[][] longDecimalPlaces = new long[19][];
+
+	static {
+		long m = 1;
+		for(int i=0;i<longDecimalPlaces.length;i++) {
+			
+			longDecimalPlaces[i] = new long[10];
+			
+			for(int k=0;k<10;k++) {
+				try {
+					longDecimalPlaces[i][k] = k*m;
+				}
+				catch(Throwable e) {
+					e.printStackTrace();
+				}
+			}
+			
+			m = m*10;
+		}
+		
+	}
+	
+	private static final int[][] intDecimalPlaces = new int[10][];
+
+	static {
+		int m = 1;
+		for(int i=0;i<intDecimalPlaces.length;i++) {
+			
+			intDecimalPlaces[i] = new int[10];
+			
+			
+			for(int k=0;k<10;k++) {
+				try {
+					intDecimalPlaces[i][k] = k*m;
+				}
+				catch(Throwable e) {
+					e.printStackTrace();
+				}
+			}
+			
+			m = m*10;
+		}
+	}
 	
 	private static final Unsafe UNSAFE;
 	
@@ -193,24 +235,7 @@ public class ArraysUtil {
 	 * @return inteiro.
 	 */
 	public static int toInt(byte[] value){
-		int limit      = value.length - 1;
-		byte signal    = value[0] == NEGATIVE? FALSE : TRUE;
-		byte hasSignal = value[0] == NEGATIVE || value[0] == POSITIVE? TRUE : FALSE;
-		
-		int start  = hasSignal == TRUE? 1 : 0;
-		int result = 0;
-		int mult   = 1;
-		
-		while(limit>=start){
-			result += (value[limit--] - ZERO)*mult;
-			mult   *= 10;
-		}
-		
-		if(signal == FALSE){
-			result = (result ^ NEGATIVE_INT) + 1;
-		}
-		
-		return result;
+		return toInt(value, 0, value.length);
 	}
 
 	/**
@@ -219,24 +244,28 @@ public class ArraysUtil {
 	 * @return inteiro.
 	 */
 	public static int toInt(byte[] value, int o, int l){
-		int limit      = o + l - 1;
-		byte signal    = value[o] == NEGATIVE? FALSE : TRUE;
-		byte hasSignal = value[o] == NEGATIVE || value[o] == POSITIVE? TRUE : FALSE;
-		
-		int start  = o + (hasSignal == TRUE? 1 : 0);
-		int result = 0;
-		int mult   = 1;
-		
-		for(int i=limit;i>=start;i--){
-			result += (value[i] - ZERO)*mult;
-			mult   *= 10;
+		try {
+			int limit      = o + l - 1;
+			byte signal    = value[o] == NEGATIVE? FALSE : TRUE;
+			byte hasSignal = value[o] == NEGATIVE || value[o] == POSITIVE? TRUE : FALSE;
+			
+			int start  = o + (hasSignal == TRUE? 1 : 0);
+			int result = 0;
+			int dig    = 0;
+			for(int i=limit;i>=start;i--){
+				result += intDecimalPlaces[dig++][value[i] - ZERO];
+			}
+			
+			if(signal == FALSE){
+				result = (result ^ NEGATIVE_INT) + 1;
+			}
+			
+			return result;
 		}
-		
-		if(signal == FALSE){
-			result = (result ^ NEGATIVE_INT) + 1;
+		catch(IndexOutOfBoundsException e) {
+			throw new NumberFormatException(new String(value, o, l));
 		}
-		
-		return result;
+			
 	}
 	
 	/**
@@ -345,24 +374,7 @@ public class ArraysUtil {
 	 * @return inteiro.
 	 */
 	public static long toLong(byte[] value){
-		int limit      = value.length - 1;
-		byte signal    = value[0] == NEGATIVE? FALSE : TRUE;
-		byte hasSignal = value[0] == NEGATIVE || value[0] == POSITIVE? TRUE : FALSE;
-		
-		int start   = hasSignal == TRUE? 1 : 0;
-		long result = 0;
-		int mult    = 1;
-		
-		for(int i=limit;i>=start;i--){
-			result += (value[i] - ZERO)*mult;
-			mult   *= 10;
-		}
-		
-		if(signal == FALSE){
-			result = (result ^ NEGATIVE_LONG) + 1;
-		}
-		
-		return result;
+		return toLong(value, 0, value.length);
 	}
 
 	/**
@@ -371,24 +383,27 @@ public class ArraysUtil {
 	 * @return inteiro.
 	 */
 	public static long toLong(byte[] value, int o, int len){
-		int limit      = o + len - 1;
-		byte signal    = value[o] == NEGATIVE? FALSE : TRUE;
-		byte hasSignal = value[o] == NEGATIVE || value[o] == POSITIVE? TRUE : FALSE;
-		
-		int start   = hasSignal == TRUE? 1 : 0;
-		long result = 0;
-		int mult    = 1;
-		
-		for(int i=limit;i>=start;i--){
-			result += (value[i] - ZERO)*mult;
-			mult   *= 10;
+		try {
+			int limit      = o + len - 1;
+			byte signal    = value[o] == NEGATIVE? FALSE : TRUE;
+			byte hasSignal = value[o] == NEGATIVE || value[o] == POSITIVE? TRUE : FALSE;
+			
+			int start   = hasSignal == TRUE? 1 : 0;
+			long result = 0;
+			int dig    = 0;
+			for(int i=limit;i>=start;i--){
+				result += longDecimalPlaces[dig++][value[i] - ZERO];
+			}
+			
+			if(signal == FALSE){
+				result = (result ^ NEGATIVE_LONG) + 1;
+			}
+			
+			return result;
 		}
-		
-		if(signal == FALSE){
-			result = (result ^ NEGATIVE_LONG) + 1;
+		catch(IndexOutOfBoundsException e) {
+			throw new NumberFormatException(new String(value, o, len));
 		}
-		
-		return result;
 	}
 	
 	/**

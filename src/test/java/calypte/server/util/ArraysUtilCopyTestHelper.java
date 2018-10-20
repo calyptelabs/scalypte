@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 import sun.misc.Unsafe;
 
 @SuppressWarnings("restriction")
-public class ArrayUtilCopyTestHelper {
+public class ArraysUtilCopyTestHelper {
 
 	private static final Unsafe UNSAFE;
 	

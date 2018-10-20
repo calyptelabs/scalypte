@@ -17,36 +17,20 @@
 
 package calypte.server.util;
 
-public class ArrayUtilStartsWithTestHelper {
+import junit.framework.TestCase;
 
-	public static boolean startsWith1(byte[] array, byte[] value){
-		
-		if(array.length < value.length)
-			return false;
-		
-		for(int i=0;i<value.length;i++){
-			
-			if(array[i] != value[i]){
-				return false;
-			}
-				
-		}
-		
-		return true;
+public class ArraysUtilTest extends TestCase{
+
+	public void testToInt() {
+		assertEquals(Integer.MIN_VALUE, ArraysUtil.toInt(String.valueOf(Integer.MIN_VALUE).getBytes()));
+		assertEquals(0, ArraysUtil.toInt(String.valueOf(0).getBytes()));
+		assertEquals(Integer.MAX_VALUE, ArraysUtil.toInt(String.valueOf(Integer.MAX_VALUE).getBytes()));
 	}
 
-	public static boolean startsWith2(byte[] array, byte[] value){
-		try{
-			int len = value.length;
-			int r   = 0;
-			for(int i=0;i<len;i++){
-				r += array[i] - value[i];
-			}
-			return r == 0;
-		}
-		catch(Throwable e){
-			return false;
-		}
+	public void testToLong() {
+		assertEquals(Long.MIN_VALUE, ArraysUtil.toLong(String.valueOf(Long.MIN_VALUE).getBytes()));
+		assertEquals(0, ArraysUtil.toLong(String.valueOf(0).getBytes()));
+		assertEquals(Long.MAX_VALUE, ArraysUtil.toLong(String.valueOf(Long.MAX_VALUE).getBytes()));
 	}
 	
 }

@@ -17,19 +17,21 @@
 
 package calypte.server.util;
 
-import static calypte.server.util.ArrayUtilCopyTestHelper.copy1;
-import static calypte.server.util.ArrayUtilCopyTestHelper.copy2;
-import static calypte.server.util.ArrayUtilEqualsTestHelper.equals1;
-import static calypte.server.util.ArrayUtilEqualsTestHelper.equals2;
-import static calypte.server.util.ArrayUtilEqualsTestHelper.equals3;
-import static calypte.server.util.ArrayUtilStartsWithTestHelper.startsWith1;
-import static calypte.server.util.ArrayUtilStartsWithTestHelper.startsWith2;
+import static calypte.server.util.ArraysUtilCopyTestHelper.copy1;
+import static calypte.server.util.ArraysUtilCopyTestHelper.copy2;
+import static calypte.server.util.ArraysUtilEqualsTestHelper.equals1;
+import static calypte.server.util.ArraysUtilEqualsTestHelper.equals2;
+import static calypte.server.util.ArraysUtilEqualsTestHelper.equals3;
+import static calypte.server.util.ArraysUtilStartsWithTestHelper.startsWith1;
+import static calypte.server.util.ArraysUtilStartsWithTestHelper.startsWith2;
+import static calypte.server.util.ArraysUtilToLongHelper.toLong1;
+import static calypte.server.util.ArraysUtilToLongHelper.toLong2;
 
 import java.text.DecimalFormat;
 
 import junit.framework.TestCase;
 
-public class ArrayUtilTest extends TestCase{
+public class ArraysUtilPerformanceTest extends TestCase{
 	
 	private static DecimalFormat df = new DecimalFormat("###,###,###,###,###,###,###.000");
 	
@@ -164,6 +166,42 @@ public class ArrayUtilTest extends TestCase{
 		double opsSec = 1000000000 / timeOp;
 		
 		System.out.println("StartsWith2 operations: " + ops + ", time: " + total + " nano, ops/Sec: " + df.format(opsSec) );
+	}
+
+	public void testToLong1(){
+		byte[] v = String.valueOf(Long.MIN_VALUE).getBytes();
+		long total = 0;
+		int ops    = 1000000;
+		
+		for(int i=0;i<ops;i++){
+			long nanoStart = System.nanoTime();
+			toLong1(v);
+			long nanoEnd = System.nanoTime();
+			total += nanoEnd - nanoStart;
+		}
+		
+		double timeOp = total / ops;
+		double opsSec = 1000000000 / timeOp;
+		
+		System.out.println("Long1 operations: " + ops + ", time: " + total + " nano, ops/Sec: " + df.format(opsSec) );
+	}
+
+	public void testToLong2(){
+		byte[] v = String.valueOf(Long.MIN_VALUE).getBytes();
+		long total = 0;
+		int ops    = 1000000;
+		
+		for(int i=0;i<ops;i++){
+			long nanoStart = System.nanoTime();
+			toLong2(v);
+			long nanoEnd = System.nanoTime();
+			total += nanoEnd - nanoStart;
+		}
+		
+		double timeOp = total / ops;
+		double opsSec = 1000000000 / timeOp;
+		
+		System.out.println("Long2 operations: " + ops + ", time: " + total + " nano, ops/Sec: " + df.format(opsSec) );
 	}
 	
 }

@@ -63,21 +63,21 @@ public class PutCommandTest extends TestCase{
 
 	public void testStoredK1LX() throws IOException {
 		client.send("put k 0 0 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("stored", r);
 	}
 	
 	public void testStoredKxL1() throws IOException {
 		client.send("put key 0 0 1 0");
-		client.send(new byte[] {'a'});
+		client.send("a\r\n".getBytes());
 		String r = client.read();
 		assertEquals("stored", r);
 	}
 
 	public void testStoredKxLx() throws IOException {
 		client.send("put key 0 0 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("stored", r);
 	}
@@ -98,36 +98,36 @@ public class PutCommandTest extends TestCase{
 
 	public void testReplacedK1LX() throws IOException {
 		client.send("put k 0 0 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("stored", r);
 		
-		client.send("put key 0 0 5 0");
-		client.send("teste".getBytes());
+		client.send("put k 0 0 5 0");
+		client.send("teste\r\n".getBytes());
 		r = client.read();
 		assertEquals("replaced", r);
 	}
 	
 	public void testReplacedKxL1() throws IOException {
 		client.send("put key 0 0 1 0");
-		client.send(new byte[] {'a'});
+		client.send("a\r\n".getBytes());
 		String r = client.read();
 		assertEquals("stored", r);
 		
 		client.send("put key 0 0 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		r = client.read();
 		assertEquals("replaced", r);
 	}
 
 	public void testReplacedKxLx() throws IOException {
 		client.send("put key 0 0 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("stored", r);
 		
 		client.send("put key 0 0 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		r = client.read();
 		assertEquals("replaced", r);
 	}
@@ -136,21 +136,21 @@ public class PutCommandTest extends TestCase{
 	
 	public void testTimeToLiveNeg() throws IOException {
 		client.send("put key -1 0 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testTimeToIdleNeg() throws IOException {
 		client.send("put key 0 -1 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testSizeNeg() throws IOException {
 		client.send("put key 0 0 -1 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
@@ -159,21 +159,21 @@ public class PutCommandTest extends TestCase{
 	
 	public void testTimeToLiveChar() throws IOException {
 		client.send("put key a 0 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testTimeToIdleChar() throws IOException {
 		client.send("put key 0 a 5 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testSizeChar() throws IOException {
 		client.send("put key 0 0 a 0");
-		client.send("teste".getBytes());
+		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
@@ -183,7 +183,7 @@ public class PutCommandTest extends TestCase{
 	public void testParamsError() throws IOException {
 		client.send("put key 0 0 0 0 0");
 		String r = client.read();
-		assertEquals("stored", r);
+		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 	
 }

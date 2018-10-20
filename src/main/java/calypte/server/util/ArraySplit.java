@@ -90,77 +90,57 @@ public class ArraySplit {
 	}
 	
 	public String readNextString(){
-		try{
-			int end = start;
-			
-			while(end<len && data[end++] != separator);
-			
-			int cp = end < len? end - start - 1 : end - start;
-			
-			String r = ArraysUtil.toString(data, start, cp);
-			
-			start  = end;
+		int end = start;
+		
+		while(end<len && data[end++] != separator);
+		
+		int cp = end < len? end - start - 1 : end - start;
+		
+		String r = ArraysUtil.toString(data, start, cp);
+		
+		start  = end;
 
-			return r;
-		}
-		catch(Throwable e){
-			return null;
-		}
+		return r;
 	}
 
 	public long readNextLong(){
-		try{
-			int end = start;
-			
-			while(end<len && data[end++] != separator);
-			
-			int cp = end < len? end - start - 1 : end - start;
-			
-			long r = ArraysUtil.toLong(data, start, cp);
-			
-			start  = end;
+		int end = start;
+		
+		while(end<len && data[end++] != separator);
+		
+		int cp = end < len? end - start - 1 : end - start;
+		
+		long r = ArraysUtil.toLong(data, start, cp);
+		
+		start  = end;
 
-			return r;
-		}
-		catch(Throwable e){
-			return 0;
-		}
+		return r;
 	}
 
 	public int readNextInt(){
-		try{
-			int end = start;
-			
-			while(end<len && data[end++] != separator);
-			
-			int cp = end < len? end - start - 1 : end - start;
-			
-			int r = ArraysUtil.toInt(data, start, cp);
-			
-			start  = end;
+		int end = start;
+		
+		while(end<len && data[end++] != separator);
+		
+		int cp = end < len? end - start - 1 : end - start;
+		
+		int r = ArraysUtil.toInt(data, start, cp);
+		
+		start  = end;
 
-			return r;
-		}
-		catch(Throwable e){
-			return 0;
-		}
+		return r;
 	}
 	
 	public boolean readNextBoolean(){
-		try{
-			int end = start;
-			
-			while(end<len && data[end++] != separator);
-			
-			boolean r = data[start] != '0';
-			
-			start  = end;
+		int end = start;
+		
+		while(end<len && data[end++] != separator);
+		
+		boolean r = data[start] != '0';
+		
+		start  = end;
 
-			return r;
-		}
-		catch(Throwable e){
-			return false;
-		}
+		return r;
 	}
 	
 }
