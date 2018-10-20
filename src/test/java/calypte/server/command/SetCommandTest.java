@@ -25,7 +25,7 @@ import calypte.server.CalypteServer;
 import calypte.server.ClientHelper;
 import junit.framework.TestCase;
 
-public class ReplaceCommandTest extends TestCase{
+public class SetCommandTest extends TestCase{
 
 	private CalypteServer server;
 	
@@ -67,48 +67,48 @@ public class ReplaceCommandTest extends TestCase{
 	/*  */
 	
 	public void testStoredKXL0() throws IOException {
-		client.send("replace key 0 0 0 0");
+		client.send("set key 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testStoredK1L0() throws IOException {
-		client.send("replace k 0 0 0 0");
+		client.send("set k 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testStoredK1LX() throws IOException {
-		client.send("replace k 0 0 5 0");
+		client.send("set k 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		String r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 	
 	public void testStoredKxL1() throws IOException {
-		client.send("replace key 0 0 1 0");
+		client.send("set key 0 0 1 0");
 		client.send("a\r\n".getBytes());
 		String r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 
 	public void testStoredKxLx() throws IOException {
-		client.send("replace key 0 0 5 0");
+		client.send("set key 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		String r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 
 	/*  */
 
 	public void testReplacedKXL0() throws IOException {
-		client.send("replace key 0 0 0 0");
+		client.send("set key 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 	
 	public void testReplacedK1L0() throws IOException {
-		client.send("replace k 0 0 0 0");
+		client.send("set k 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
@@ -119,10 +119,10 @@ public class ReplaceCommandTest extends TestCase{
 		String r = client.read();
 		assertEquals("stored", r);
 		
-		client.send("replace k 0 0 5 0");
+		client.send("set k 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("replaced", r);
+		assertEquals("not_stored", r);
 	}
 	
 	public void testReplacedKxL1() throws IOException {
@@ -131,10 +131,10 @@ public class ReplaceCommandTest extends TestCase{
 		String r = client.read();
 		assertEquals("stored", r);
 		
-		client.send("replace key 0 0 5 0");
+		client.send("set key 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("replaced", r);
+		assertEquals("not_stored", r);
 	}
 
 	public void testReplacedKxLx() throws IOException {
@@ -143,22 +143,22 @@ public class ReplaceCommandTest extends TestCase{
 		String r = client.read();
 		assertEquals("stored", r);
 		
-		client.send("replace key 0 0 5 0");
+		client.send("set key 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("replaced", r);
+		assertEquals("not_stored", r);
 	}
 	
 	/*  */
 
 	public void testRemoveStoredKXL0() throws IOException {
-		client.send("replace key 0 0 0 0");
+		client.send("set key 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 	
 	public void testRemoveStoredK1L0() throws IOException {
-		client.send("replace k 0 0 0 0");
+		client.send("set k 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
@@ -173,10 +173,10 @@ public class ReplaceCommandTest extends TestCase{
 		r = client.read();
 		assertEquals("ok", r);
 		
-		client.send("replace k 0 0 5 0");
+		client.send("set k 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 	
 	public void testRemoveStoredKxL1() throws IOException {
@@ -189,10 +189,10 @@ public class ReplaceCommandTest extends TestCase{
 		r = client.read();
 		assertEquals("ok", r);
 		
-		client.send("replace key 0 0 5 0");
+		client.send("set key 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 
 	public void testRemoveStoredKxLx() throws IOException {
@@ -205,22 +205,22 @@ public class ReplaceCommandTest extends TestCase{
 		r = client.read();
 		assertEquals("ok", r);
 		
-		client.send("replace key 0 0 5 0");
+		client.send("set key 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 	
 	/*  */
 
 	public void testFlushStoredKXL0() throws IOException {
-		client.send("replace key 0 0 0 0");
+		client.send("set key 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 	
 	public void testFlushStoredK1L0() throws IOException {
-		client.send("replace k 0 0 0 0");
+		client.send("set k 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
@@ -235,10 +235,10 @@ public class ReplaceCommandTest extends TestCase{
 		r = client.read();
 		assertEquals("ok", r);
 		
-		client.send("replace k 0 0 5 0");
+		client.send("set k 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 	
 	public void testFlushStoredKxL1() throws IOException {
@@ -251,10 +251,10 @@ public class ReplaceCommandTest extends TestCase{
 		r = client.read();
 		assertEquals("ok", r);
 		
-		client.send("replace key 0 0 5 0");
+		client.send("set key 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 
 	public void testFlushStoredKxLx() throws IOException {
@@ -267,30 +267,30 @@ public class ReplaceCommandTest extends TestCase{
 		r = client.read();
 		assertEquals("ok", r);
 		
-		client.send("replace key 0 0 5 0");
+		client.send("set key 0 0 5 0");
 		client.send("teste\r\n".getBytes());
 		r = client.read();
-		assertEquals("not_stored", r);
+		assertEquals("stored", r);
 	}
 	
 	/*  */
 	
 	public void testTimeToLiveNeg() throws IOException {
-		client.send("replace key -1 0 5 0");
+		client.send("set key -1 0 5 0");
 		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testTimeToIdleNeg() throws IOException {
-		client.send("replace key 0 -1 5 0");
+		client.send("set key 0 -1 5 0");
 		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testSizeNeg() throws IOException {
-		client.send("replace key 0 0 -1 0");
+		client.send("set key 0 0 -1 0");
 		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
@@ -299,21 +299,21 @@ public class ReplaceCommandTest extends TestCase{
 	/*  */
 	
 	public void testTimeToLiveChar() throws IOException {
-		client.send("replace key a 0 5 0");
+		client.send("set key a 0 5 0");
 		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testTimeToIdleChar() throws IOException {
-		client.send("replace key 0 a 5 0");
+		client.send("set key 0 a 5 0");
 		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
 	public void testSizeChar() throws IOException {
-		client.send("replace key 0 0 a 0");
+		client.send("set key 0 0 a 0");
 		client.send("teste\r\n".getBytes());
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
@@ -322,7 +322,7 @@ public class ReplaceCommandTest extends TestCase{
 	/*  */
 	
 	public void testParamsError() throws IOException {
-		client.send("replace key 0 0 0 0 0");
+		client.send("set key 0 0 0 0 0");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
