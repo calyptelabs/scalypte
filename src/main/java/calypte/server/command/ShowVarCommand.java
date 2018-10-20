@@ -34,7 +34,7 @@ import calypte.server.error.ServerErrors;
  * @author Ribeiro
  *
  */
-public class ShowVarCommand 
+public class ShowVarCommand
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
@@ -47,11 +47,11 @@ public class ShowVarCommand
 			key = params.readNextString();
 			
 			if(key == null){
-		        throw new NullPointerException();
+		        throw new NullPointerException("key");
 			}
 	    }
 	    catch(Throwable e){
-	        throw new ServerErrorException(ServerErrors.ERROR_1003, "var_name");
+	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
 	    }
 		
 		Object obj = terminal.getTerminalVars().get(key);

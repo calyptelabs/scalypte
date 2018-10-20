@@ -69,10 +69,14 @@ public class SetVarCommand
 			}
 
 			Class<?> type = this.types.get(key);
+			
 			if(type != null){
 				value = ClassUtil.toObject(type, (String)value);
 			}
 			
+			if(!terminal.getTerminalVars().containsKey(key)) {
+		        throw new IllegalStateException(key);
+			}
 	    }
 	    catch(Throwable e){
 	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);

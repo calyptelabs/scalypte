@@ -40,6 +40,10 @@ public class AutoCommitListener implements TerminalInfoListener{
 	public void actionPerformed(String key, Object oldValue, Object newValue,
 			TerminalVars terminalSession) {
 
+		if(newValue.equals(oldValue)) {
+			return;
+		}
+		
 		boolean value = (Boolean)newValue;
 		
 		try{

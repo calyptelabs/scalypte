@@ -25,7 +25,7 @@ import calypte.server.CalypteServer;
 import calypte.server.ClientHelper;
 import junit.framework.TestCase;
 
-public class ShowVarCommandTest extends TestCase{
+public class SetVarCommandTest extends TestCase{
 
 	private CalypteServer server;
 	
@@ -67,21 +67,28 @@ public class ShowVarCommandTest extends TestCase{
 	/*  */
 
 	public void testErrorVar() throws IOException {
-		client.send("show_var");
+		client.send("set_var");
 		String r = client.read();
 		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
 
-	public void testShow() throws IOException {
-		client.send("show_var curr_connections");
+	public void testErrorValue() throws IOException {
+		client.send("set_var backlog");
 		String r = client.read();
-		assertTrue(r.matches("^curr_connections\\:\\s.+$"));
+		assertEquals("ERROR 1004: Bad command syntax error!", r);
+	}
+	
+	public void testShow() throws IOException {
+		client.send("set_var auto_commit true");
+		String r = client.read();
+		assertEquals("ok", r);
 	}
 
 	public void testShowEmpty() throws IOException {
-		client.send("show_var dddddddd");
+		client.send("set_var xxxxxxx 0");
 		String r = client.read();
-		assertTrue(r.matches("^dddddddd\\: empty$"));
+		assertEquals("ERROR 1004: Bad command syntax error!", r);
 	}
+	
 	
 }
