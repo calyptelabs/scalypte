@@ -72,6 +72,24 @@ public class ClientHelper {
 		}
 	}
 
+	public void testRequest(String[] ... sequence) throws IOException {
+		System.out.println("start request+++++++++++++++++++++++++++++++++++++");
+		for(String[] s1: sequence) {
+			for(String s: s1) {
+				if(s.startsWith(">>")) {
+					System.out.println("send...: " + s.substring(2));
+					this.send(s.substring(2));
+				}
+				else
+				if(s.startsWith("<<")) {
+					System.out.println("receive: " + s.substring(2));
+					TestCase.assertEquals(s.substring(2), this.read());
+				}
+			}
+		}
+		System.out.println("end request+++++++++++++++++++++++++++++++++++++");
+	}
+	
 	public void testRequest(String ... sequence) throws IOException {
 		for(String s: sequence) {
 			if(s.startsWith(">>")) {
