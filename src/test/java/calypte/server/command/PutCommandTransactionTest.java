@@ -104,25 +104,6 @@ public class PutCommandTransactionTest extends TestCase{
 				"<<stored"
 		);
 	}
-
-	/* -- */
-	
-	public void testStoredTransactionKXL0() throws IOException {
-		client.testRequest(
-				">>begin",
-				"<<ok",
-				">>put key 0 0 0 0",
-				"<<ERROR 1004: Bad command syntax error!",
-				">>get key 0",
-				"<<value key 0 0",
-				"<<end",
-				">>rollback",
-				"<<ok",
-				">>get key 0",
-				"<<value key 0 0",
-				"<<end"
-		);
-	}
 	
 	/*  */
 
