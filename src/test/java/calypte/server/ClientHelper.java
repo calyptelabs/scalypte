@@ -62,16 +62,6 @@ public class ClientHelper {
 		return Arrays.copyOf(r, r.length - 2);
 	}
 	
-	public void testRequest(String[] request, String[] response) throws IOException {
-		for(String r: request) {
-			this.send(r);
-		}
-		
-		for(int i=0;i<response.length;i++) {
-			TestCase.assertEquals(response[i], this.read());
-		}
-	}
-
 	public void testRequest(String[] ... sequence) throws IOException {
 		System.out.println("start request+++++++++++++++++++++++++++++++++++++");
 		for(String[] s1: sequence) {

@@ -65,203 +65,150 @@ public class PutCommandTransactionTest extends TestCase{
 		System.gc();
 	}
 	
-	/*  */
+	/* not exist  */
 	
-	public void testStoredKXL0() throws IOException {
+	public void testput_keyN_valueE_not_exist() throws IOException {
 		client.testRequest(
 				">>put key 0 0 0 0",
 				"<<ERROR 1004: Bad command syntax error!"
 		);
 	}
 
-	public void testStoredK1L0() throws IOException {
+	public void testput_key1_valueE_not_exist() throws IOException {
 		client.testRequest(
 				">>put k 0 0 0 0",
 				"<<ERROR 1004: Bad command syntax error!"
 		);
 	}
 
-	public void testStoredK1LX() throws IOException {
+	public void testput_keyN_valueN_not_exist() throws IOException {
 		client.testRequest(
-				">>put k 0 0 5 0",
-				">>teste",
-				"<<stored"
+				CommandHelper.put_keyN_valueN_not_exist
 		);
 	}
 	
-	public void testStoredKxL1() throws IOException {
+	public void testput_keyN_value1_not_exist() throws IOException {
 		client.testRequest(
-				">>put key 0 0 1 0",
-				">>a",
-				"<<stored"
+				CommandHelper.put_keyN_value1_not_exist
 		);
 	}
 
-	public void testStoredKxLx() throws IOException {
+	public void testput_key1_valueN_not_exist() throws IOException {
 		client.testRequest(
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<stored"
+				CommandHelper.put_key1_valueN_not_exist
 		);
 	}
 	
-	/*  */
-
-	public void testReplacedKXL0() throws IOException {
+	public void testput_key1_value1_not_exist() throws IOException {
 		client.testRequest(
-				">>put key 0 0 0 0",
-				"<<ERROR 1004: Bad command syntax error!"
-		);
-	}
-	
-	public void testReplacedK1L0() throws IOException {
-		client.testRequest(
-				">>put k 0 0 0 0",
-				"<<ERROR 1004: Bad command syntax error!"
+				CommandHelper.put_key1_value1_not_exist
 		);
 	}
 
-	public void testReplacedK1LX() throws IOException {
+	/* exist */
+	
+	public void testput_keyN_valueN_exist() throws IOException {
 		client.testRequest(
-				">>put k 0 0 5 0",
-				">>teste",
-				"<<stored",
-				">>put k 0 0 5 0",
-				">>teste",
-				"<<replaced"
+				CommandHelper.put_keyN_valueN_not_exist,
+				CommandHelper.put_keyN_valueN_exist
 		);
 	}
 	
-	public void testReplacedKxL1() throws IOException {
+	public void testput_keyN_value1_exist() throws IOException {
 		client.testRequest(
-			">>put key 0 0 1 0",
-			">>a",
-			"<<stored",
-			">>put key 0 0 5 0",
-			">>teste",
-			"<<replaced"
+				CommandHelper.put_keyN_value1_not_exist,
+				CommandHelper.put_keyN_value1_exist
 		);
 	}
 
-	public void testReplacedKxLx() throws IOException {
+	public void testput_key1_valueN_exist() throws IOException {
 		client.testRequest(
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<stored",
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<replaced"
-			);
+				CommandHelper.put_key1_valueN_not_exist,
+				CommandHelper.put_key1_valueN_exist
+		);
 	}
 	
-	/*  */
-
-	public void testRemoveStoredKXL0() throws IOException {
+	public void testput_key1_value1_exist() throws IOException {
 		client.testRequest(
-				">>put key 0 0 0 0",
-				"<<ERROR 1004: Bad command syntax error!"
-			);
+				CommandHelper.put_key1_value1_not_exist,
+				CommandHelper.put_key1_value1_exist
+		);
+	}
+
+	/* flush */
+
+	public void testput_keyN_valueN_flush() throws IOException {
+		client.testRequest(
+				CommandHelper.put_keyN_valueN_not_exist,
+				CommandHelper.put_keyN_valueN_exist,
+				CommandHelper.flush,
+				CommandHelper.put_keyN_valueN_not_exist
+		);
 	}
 	
-	public void testRemoveStoredK1L0() throws IOException {
+	public void testput_keyN_value1_flush() throws IOException {
 		client.testRequest(
-				">>put k 0 0 0 0",
-				"<<ERROR 1004: Bad command syntax error!"
-			);
+				CommandHelper.put_keyN_value1_not_exist,
+				CommandHelper.put_keyN_value1_exist,
+				CommandHelper.flush,
+				CommandHelper.put_keyN_value1_not_exist
+		);
 	}
 
-	public void testRemoveStoredK1LX() throws IOException {
+	public void testput_key1_valueN_flush() throws IOException {
 		client.testRequest(
-				">>put k 0 0 5 0",
-				">>teste",
-				"<<stored",
-				">>remove k 0",
-				"<<ok",
-				">>put k 0 0 5 0",
-				">>teste",
-				"<<stored"
-			);
+				CommandHelper.put_key1_valueN_not_exist,
+				CommandHelper.put_key1_valueN_exist,
+				CommandHelper.flush,
+				CommandHelper.put_key1_valueN_not_exist
+		);
 	}
 	
-	public void testRemoveStoredKxL1() throws IOException {
+	public void testput_key1_value1_flush() throws IOException {
 		client.testRequest(
-				">>put key 0 0 1 0",
-				">>a",
-				"<<stored",
-				">>remove key 0",
-				"<<ok",
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<stored"
-			);
-	}
-
-	public void testRemoveStoredKxLx() throws IOException {
-		client.testRequest(
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<stored",
-				">>remove key 0",
-				"<<ok",
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<stored"
-			);
+				CommandHelper.put_key1_value1_not_exist,
+				CommandHelper.put_key1_value1_exist,
+				CommandHelper.flush,
+				CommandHelper.put_key1_value1_not_exist
+		);
 	}
 	
-	/*  */
+	/* remove */
 
-	public void testFlushStoredKXL0() throws IOException {
+	public void testput_keyN_valueN_remove() throws IOException {
 		client.testRequest(
-				">>put key 0 0 0 0",
-				"<<ERROR 1004: Bad command syntax error!"
-			);
+				CommandHelper.put_keyN_valueN_not_exist,
+				CommandHelper.put_keyN_valueN_exist,
+				CommandHelper.remove_keyN_valueN_exist,
+				CommandHelper.put_keyN_valueN_not_exist
+		);
 	}
 	
-	public void testFlushStoredK1L0() throws IOException {
+	public void testput_keyN_value1_remove() throws IOException {
 		client.testRequest(
-				">>put k 0 0 0 0",
-				"<<ERROR 1004: Bad command syntax error!"
-			);
+				CommandHelper.put_keyN_value1_not_exist,
+				CommandHelper.put_keyN_value1_exist,
+				CommandHelper.remove_keyN_value1_exist,
+				CommandHelper.put_keyN_value1_not_exist
+		);
 	}
 
-	public void testFlushStoredK1LX() throws IOException {
+	public void testput_key1_valueN_remove() throws IOException {
 		client.testRequest(
-				">>put k 0 0 5 0",
-				">>teste",
-				"<<stored",
-				">>flush",
-				"<<ok",
-				">>put k 0 0 5 0",
-				">>teste",
-				"<<stored"
-			);
+				CommandHelper.put_key1_valueN_not_exist,
+				CommandHelper.put_key1_valueN_exist,
+				CommandHelper.remove_key1_valueN_exist,
+				CommandHelper.put_key1_valueN_not_exist
+		);
 	}
 	
-	public void testFlushStoredKxL1() throws IOException {
+	public void testput_key1_value1_remove() throws IOException {
 		client.testRequest(
-				">>put key 0 0 1 0",
-				">>a",
-				"<<stored",
-				">>flush",
-				"<<ok",
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<stored"
-			);
-	}
-
-	public void testFlushStoredKxLx() throws IOException {
-		client.testRequest(
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<stored",
-				">>flush",
-				"<<ok",
-				">>put key 0 0 5 0",
-				">>teste",
-				"<<stored"
-			);
+				CommandHelper.put_key1_value1_not_exist,
+				CommandHelper.put_key1_value1_exist,
+				CommandHelper.remove_key1_value1_exist,
+				CommandHelper.put_key1_value1_not_exist
+		);
 	}
 	
 	/*  */
@@ -289,8 +236,6 @@ public class PutCommandTransactionTest extends TestCase{
 			);
 	}
 
-	/*  */
-	
 	public void testTimeToLiveChar() throws IOException {
 		client.testRequest(
 				">>put key a 0 5 0",
@@ -315,8 +260,6 @@ public class PutCommandTransactionTest extends TestCase{
 			);
 	}
 
-	/*  */
-	
 	public void testParamsError() throws IOException {
 		client.testRequest(
 				">>put key 0 0 0 0 0",

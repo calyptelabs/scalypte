@@ -272,17 +272,24 @@ public class CommandHelper {
 			"<<ok"
 		};
 	
-	/* begin */
+	/* commit */
 	
 	public static final String[] commit = new String[] {
 			">>commit",
 			"<<ok"
 		};
 
-	/* begin */
+	/* rollback */
 	
 	public static final String[] rollback = new String[] {
 			">>rollback",
+			"<<ok"
+		};
+
+	/* flush */
+	
+	public static final String[] flush = new String[] {
+			">>flush",
 			"<<ok"
 		};
 	
