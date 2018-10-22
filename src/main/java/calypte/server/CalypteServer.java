@@ -198,6 +198,8 @@ public class CalypteServer {
         }
         finally{
             this.serverSocket.close();
+            this.cache.destroy();
+            this.monitorThread.kill();
         }
     }
     

@@ -20,6 +20,7 @@ package calypte.server.command;
 import java.awt.EventQueue;
 import java.io.IOException;
 
+import calypte.CacheConstants;
 import calypte.Configuration;
 import calypte.server.CalypteServer;
 import calypte.server.ClientHelper;
@@ -35,6 +36,9 @@ public class BeginCommandTransactionTest extends TestCase{
 	public void setUp() throws Exception{
 		Configuration config = new Configuration();
 		config.setProperty("transaction_support", "true");
+        config.setProperty(CacheConstants.NODES_BUFFER_SIZE, "512k");
+        config.setProperty(CacheConstants.INDEX_BUFFER_SIZE, "512k");
+        config.setProperty(CacheConstants.DATA_BUFFER_SIZE,  "512k");
 		this.server = new CalypteServer(config);
 		EventQueue.invokeLater(new Runnable(){
 
