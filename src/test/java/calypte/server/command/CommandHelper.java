@@ -198,7 +198,7 @@ public class CommandHelper {
 		};
 
 	public static final String[] get_key1_valueN_not_exist = new String[] {
-			">>get k 0 ",
+			">>get k 0",
 			"<<value k 0 0",
 			"<<end"
 		};
@@ -236,8 +236,8 @@ public class CommandHelper {
 		};
 
 	public static final String[] remove_keyN_value1_not_exist = new String[] {
-			">>put key",
-			"<<not_stored"
+			">>remove key",
+			"<<not_found"
 		};
 		
 	public static final String[] remove_keyN_value1_exist = new String[] {
