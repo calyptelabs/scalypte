@@ -35,9 +35,9 @@ public class RemoveCommandTest extends TestCase{
 	@Override
 	public void setUp() throws Exception{
 		Configuration config = new Configuration();
-        config.setProperty(CacheConstants.NODES_BUFFER_SIZE, "512k");
-        config.setProperty(CacheConstants.INDEX_BUFFER_SIZE, "512k");
-        config.setProperty(CacheConstants.DATA_BUFFER_SIZE,  "512k");
+        config.setProperty(CacheConstants.NODES_BUFFER_SIZE, "1536k");
+        config.setProperty(CacheConstants.INDEX_BUFFER_SIZE, "1536k");
+        config.setProperty(CacheConstants.DATA_BUFFER_SIZE,  "1536k");
 		this.server = new CalypteServer(config);
 		EventQueue.invokeLater(new Runnable(){
 
