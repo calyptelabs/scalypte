@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -102,9 +101,9 @@ public class CalypteServer {
      * Cria uma nova instância do cache.
      * 
      * @param config Configuração.
-     * @throws UnknownHostException 
+     * @throws IOException 
      */
-    public CalypteServer(Configuration config) throws UnknownHostException{
+    public CalypteServer(Configuration config) throws IOException{
         this.loadConfiguration(config);
     }
     
@@ -209,14 +208,14 @@ public class CalypteServer {
         return factory;
     }
     
-    private void loadConfiguration(Configuration config) throws UnknownHostException{
+    private void loadConfiguration(Configuration config) throws IOException{
     	this.initProperties(config);
     	this.initCache(config);
     	this.initMonitorThread();
     	this.initGlobalTerminalInfo();
     }
 
-    private void initProperties(Configuration config) throws UnknownHostException{
+    private void initProperties(Configuration config) throws IOException{
         int backlog  			= config.getInt(ServerConstants.BACKLOG,					"10");
         String addressName		= config.getString(ServerConstants.ADDRESS,					"0.0.0.0");
         int portNumber			= config.getInt(ServerConstants.PORT,						"1044");
@@ -245,9 +244,26 @@ public class CalypteServer {
         this.backlog            = backlog;
         this.txManager          = (CacheTransactionManager)txManager;
         
-        System.setProperty("java.io.tmpdir", data_path + File.separator + "tmp");
+        initTMPPath(data_path);
         
         logger.info("config: " + config.toString());
+    }
+    
+    private void initTMPPath(String data_path) throws IOException {
+        System.setProperty("java.io.tmpdir", data_path + File.separator + "tmp");
+        File tmpPath = new File(System.getProperty("java.io.tmpdir"));
+        
+        if(!tmpPath.exists()) {
+        	tmpPath.mkdirs();
+        }
+        
+        if(!tmpPath.isDirectory()) {
+        	throw new IOException("invalid tmp path: " + tmpPath.getAbsolutePath());
+        }
+        
+        if(!tmpPath.canRead() || !tmpPath.canWrite()) {
+        	throw new IOException("cannot access the tmp path : " + tmpPath.getAbsolutePath());
+        }
     }
     
     private void initCache(Configuration c) {
