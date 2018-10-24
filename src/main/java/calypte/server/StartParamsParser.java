@@ -60,10 +60,10 @@ public class StartParamsParser {
 				this.loggerFile = parts[1].trim();
 			}
 			else
-			if(param.startsWith("--log_path")){
+			if(param.startsWith("--log-path")){
 				String[] parts = param.split("\\=");
 				if(parts.length != 2 || parts[1].trim().isEmpty()){
-					throw new IllegalStateException("expected --log_path=<path>");
+					throw new IllegalStateException("expected --log-path=<path>");
 				}
 				this.loggerPath = parts[1].trim();
 			}
