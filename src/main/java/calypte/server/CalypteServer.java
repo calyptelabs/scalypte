@@ -51,7 +51,7 @@ public class CalypteServer {
     
 	private static final Logger logger = LoggerFactory.getLogger(CalypteServer.class);
 	
-	private static final String version = "Calypte server 1.0.2.0";
+	private static final String version = "Calypte server 1.0.2.1";
 	
     private ServerSocket serverSocket;
     
