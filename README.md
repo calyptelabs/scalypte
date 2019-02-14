@@ -35,7 +35,7 @@ Adicione no pom.xml:
 </dependency>
 ```
 
-Mais informações: https://calyptelabs.github.io/java.html
+Mais informações: https://calypte.sourceforge.io/java.html
 
 ## Instalando com composer
 
@@ -45,6 +45,6 @@ Você pode instalar o cliente Calypte usando o composer:
 $ composer require calypte/calypte
 ```
 
-Mais informações: https://calyptelabs.github.io/php.html
+Mais informações: https://calypte.sourceforge.io/php.html
 
-Veja mais em: https://calyptelabs.github.io/
+Veja mais em: https://calypte.sourceforge.io/
